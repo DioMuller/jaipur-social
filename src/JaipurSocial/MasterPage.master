@@ -14,8 +14,13 @@
             <asp:ScriptReference Name="jquery"/>
           </Scripts>
         </asp:ScriptManager>
+        <ajaxToolkit:Gravatar runat="server"
+            Email="diogo.muller@live.com"
+            Size="200"
+            Rating="R"
+            DefaultImageBehavior="Identicon"
+            DefaultImage="http://tinyurl.com/3bpsaac" />
         <asp:ContentPlaceHolder id="Body" runat="server">
-        
         </asp:ContentPlaceHolder>
     </div>
     </form>

@@ -30,6 +30,7 @@
             <td>
                 <asp:RequiredFieldValidator ID="RfvConfirmPassword" runat="server" ControlToValidate="TxtConfirmPassword" Text="<%$ Resources:Localization, RequiredPassword %>" />
                 <asp:CompareValidator ID="CmvPassword" runat="server" ControlToValidate="TxtConfirmPassword" ControlToCompare="TxtPassword" Text="<%$ Resources:Localization, RequiredValidatePassword %>" />
+                <ajaxControlToolkit
             </td>
         </tr>
         <tr>
