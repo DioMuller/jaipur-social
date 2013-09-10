@@ -20,3 +20,9 @@ div.footer
     color: white;
     background: #6495ED;
 }
+
+table.center 
+{
+    margin-left:auto; 
+    margin-right:auto;
+}

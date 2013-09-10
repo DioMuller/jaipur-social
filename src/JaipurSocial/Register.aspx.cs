@@ -11,17 +11,18 @@ public partial class Register : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["User"] != null)
+        {
+            Response.Redirect("Default.aspx");
+        }
+
         BtnBack.Attributes.Add("onClick", "javascript:history.back(); return false;");
     }
     protected void BtnRegister_Click(object sender, EventArgs e)
     {
         if( IsValid )
         {
-            SHA256 hash = SHA256.Create();
-            char[] array = TxtPassword.Text.ToCharArray();
-            byte[] chars = new byte[array.Length];
-            System.Buffer.BlockCopy(array, 0, chars, 0, chars.Length);
-            byte[] bytes = hash.ComputeHash(chars);
+            byte[] bytes = CryptoHelper.GetHash(TxtPassword.Text);
 
             using (var db = new JaipurEntities())
             {
