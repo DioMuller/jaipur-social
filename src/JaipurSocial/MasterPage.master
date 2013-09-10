@@ -4,7 +4,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>Jaipur Social</title>
+    <link rel="stylesheet" href="Style/style.css" type="text/css" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -14,14 +15,18 @@
             <asp:ScriptReference Name="jquery"/>
           </Scripts>
         </asp:ScriptManager>
-        <ajaxToolkit:Gravatar runat="server"
-            Email="diogo.muller@live.com"
-            Size="200"
-            Rating="R"
-            DefaultImageBehavior="Identicon"
-            DefaultImage="http://tinyurl.com/3bpsaac" />
-        <asp:ContentPlaceHolder id="Body" runat="server">
-        </asp:ContentPlaceHolder>
+        <!-- HEADER -->
+        <div class="header">
+            <asp:Image ID="ImageTitle" ImageUrl="./Images/title.png" runat="server"/>
+        </div>  
+        <!-- BODY -->
+        <div class="body">
+            <asp:ContentPlaceHolder id="Body" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <!-- FOOTER -->
+        <div class="footer">
+        </div>
     </div>
     </form>
 </body>
