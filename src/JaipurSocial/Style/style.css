@@ -1,16 +1,22 @@
 ﻿div.header
 {
     text-align: center; 
-    background: #256250;
+    background: #6495ED;
+    height: 120px;
+    background-image:url("/Images/detail.png");
+    background-repeat:repeat-x;
+    background-position:left bottom; /* or 0% 100% */
 }
 
-div.body
+div.center
 {
     text-align: center; 
 }
+
 
 div.footer
 {
     text-align: center; 
-    background: #256250;
+    color: white;
+    background: #6495ED;
 }

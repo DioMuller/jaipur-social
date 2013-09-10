@@ -20,12 +20,11 @@
             <asp:Image ID="ImageTitle" ImageUrl="./Images/title.png" runat="server"/>
         </div>  
         <!-- BODY -->
-        <div class="body">
-            <asp:ContentPlaceHolder id="Body" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>
+        <asp:ContentPlaceHolder id="Body" runat="server">
+        </asp:ContentPlaceHolder>
         <!-- FOOTER -->
         <div class="footer">
+            <asp:Label Text="2013 - Diogo Muller de Miranda & João Vitor Pietsiaki Moraes" runat="server"/>
         </div>
     </div>
     </form>
