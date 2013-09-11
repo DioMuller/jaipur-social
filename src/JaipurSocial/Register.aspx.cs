@@ -26,13 +26,22 @@ public partial class Register : System.Web.UI.Page
 
             using (var db = new JaipurEntities())
             {
-                db.User.Add(new User() 
+                if( db.User.Where( (u) => u.Login.ToLower() == TxtLogin.Text.ToLower() ).Count() == 0 )
                 { 
-                    Login = TxtLogin.Text,
-                    Email = TxtEmail.Text, 
-                    Password = bytes
-                });
-                db.SaveChanges();
+                    db.User.Add(new User() 
+                    { 
+                        Login = TxtLogin.Text,
+                        Email = TxtEmail.Text, 
+                        Password = bytes
+                    });
+                    db.SaveChanges();
+
+                    Response.Redirect("Login.aspx");
+                }
+                else
+                {
+                    //TODO: Show error message: User already exists
+                }
             }
         }
     }

@@ -120,6 +120,9 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="Challenge" xml:space="preserve">
+    <value>Challenge</value>
+  </data>
   <data name="ConfirmEmail" xml:space="preserve">
     <value>Confirm Email</value>
   </data>
