@@ -135,6 +135,9 @@
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="Merchant" xml:space="preserve">
+    <value>Mercador</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Senha</value>
   </data>

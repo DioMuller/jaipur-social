@@ -16,7 +16,8 @@ public partial class _Default : System.Web.UI.Page
 
             if( logged != null )
             {
-                GridUsers.DataSource = db.User.Where( (u) => u.Id != logged.Id );
+                List<User> users = db.User.Where((u) => u.Id != logged.Id).ToList<User>();
+                GridUsers.DataSource = users;
                 GridUsers.DataBind();
             }
         }
