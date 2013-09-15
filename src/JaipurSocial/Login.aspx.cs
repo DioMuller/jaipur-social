@@ -10,12 +10,12 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if( Session["User"] != null )
+        if (Session["User"] != null)
         {
             Response.Redirect("Default.aspx");
         }
     }
-    
+
     protected void BtnRegister_Click(object sender, EventArgs e)
     {
         Response.Redirect("Register.aspx");
@@ -25,12 +25,11 @@ public partial class _Default : System.Web.UI.Page
     {
         using (var db = new JaipurEntities())
         {
-            byte[] pass = CryptoHelper.GetHash(TxtPassword.Text);
-            var users = db.User.Where( (u) => (u.Login.ToLower() == TxtLogin.Text.ToLower() && Array.Equals(pass, u.Password) ) );
+            var user = db.User.FirstOrDefault(u => u.CheckLogin(TxtLogin.Text));
 
-            if( users.Count() > 0 )
+            if (user != null && user.CheckPassword(TxtPassword.Text))
             {
-                Session["User"] = users.First();
+                Session["User"] = user;
                 Response.Redirect("Default.aspx");
             }
             else
