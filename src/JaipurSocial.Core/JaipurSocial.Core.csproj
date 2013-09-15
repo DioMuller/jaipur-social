@@ -41,7 +41,14 @@
   <ItemGroup>
     <Compile Include="Card.cs" />
     <Compile Include="GameData.cs" />
+    <Compile Include="PlayerData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JaipurSocial.Data\JaipurSocial.Data.csproj">
+      <Project>{accc4046-0dc6-47e5-89fc-c350e6076706}</Project>
+      <Name>JaipurSocial.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

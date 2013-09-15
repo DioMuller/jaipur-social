@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JaipurSocial.Data;
 
 namespace JaipurSocial.Core
 {
     class GameData
     {
-        List<Card> Player1Hand { get; private set; }
-        int Player1Camels { get; private set; }
-        List<Card> Player2Hand { get; private set; }
-        int Player2Camels { get; private set; }
-        List<Card> OnTable { get; private set; }
-        Dictionary<Card, int> Resources { get; private set; }
-        Stack<Card> OnDeck { get; private set; }
+        public PlayerData Player1 { get; private set; }
+        public PlayerData Player2 { get; private set; }
+        public List<Card> OnTable { get; private set; }
+        public Dictionary<Card, int> Resources { get; private set; }
+        public Stack<Card> OnDeck { get; private set; }
 
-        public void CreateGame()
+        public void CreateNewGame(User challenger, User enemy)
         {
-            Player1Hand = new List<Card>(7);
-            Player2Hand = new List<Card>(7);
+            Player1 = new PlayerData(challenger);
+            Player2 = new PlayerData(enemy);
             OnTable = new List<Card>(5);
 
             #region Initialize Deck
@@ -55,13 +54,19 @@ namespace JaipurSocial.Core
             Resources[Card.Silk] = 7;
             Resources[Card.Spices] = 7;
             Resources[Card.Leather] = 9;
+
+            for( int i = 0; i < 5; i++ )
+            {
+                Player1.GiveCard(OnDeck.Pop());
+                Player2.GiveCard(OnDeck.Pop());
+            }
         }
 
         public void DrawCards()
         {
-            while( OnTable.Count < 5 )
+            while (OnTable.Count < 5)
             {
-                OnTable.Add(OnDeck.Pop());   
+                OnTable.Add(OnDeck.Pop());
             }
         }
 
