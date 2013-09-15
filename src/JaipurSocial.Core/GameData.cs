@@ -7,7 +7,7 @@ using JaipurSocial.Data;
 
 namespace JaipurSocial.Core
 {
-    class GameData
+    public class GameData
     {
         public PlayerData Player1 { get; private set; }
         public PlayerData Player2 { get; private set; }
@@ -15,11 +15,17 @@ namespace JaipurSocial.Core
         public Dictionary<Card, int> Resources { get; private set; }
         public Stack<Card> OnDeck { get; private set; }
 
+        public GameData(User challenger, User enemy)
+        {
+            CreateNewGame(challenger, enemy);
+        }
+
         public void CreateNewGame(User challenger, User enemy)
         {
             Player1 = new PlayerData(challenger);
             Player2 = new PlayerData(enemy);
             OnTable = new List<Card>(5);
+            OnDeck = new Stack<Card>();
 
             #region Initialize Deck
             for( int i = 0; i < 11; i++ )

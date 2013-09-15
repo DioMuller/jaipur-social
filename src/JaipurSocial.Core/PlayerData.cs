@@ -7,7 +7,7 @@ using JaipurSocial.Data;
 
 namespace JaipurSocial.Core
 {
-    class PlayerData
+    public class PlayerData
     {
         public User User { get; private set; }
         public List<Card> Hand { get; private set; }

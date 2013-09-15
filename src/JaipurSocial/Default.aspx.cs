@@ -22,4 +22,19 @@ public partial class _Default : System.Web.UI.Page
             }
         }
     }
+    protected void GridUsers_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if( e.CommandName == "Challenge" )
+        {
+            GridUsers.SelectedIndex = int.Parse(e.CommandArgument.ToString());
+            GridUsers.DataBind();
+
+            using (var db = new JaipurEntities())
+            {
+                Session["Enemy"] = db.User.FirstOrDefault((u) => u.Id == (int)GridUsers.SelectedDataKey.Value);
+            }
+
+            Response.Redirect("Game.aspx");
+        }
+    }
 }
