@@ -25,7 +25,7 @@ public partial class _Default : System.Web.UI.Page
     {
         using (var db = new JaipurEntities())
         {
-            var user = db.User.FirstOrDefault(u => u.CheckLogin(TxtLogin.Text));
+            var user = db.User.FirstOrDefault(u => u.Login.ToLower() == TxtLogin.Text.ToLower());
 
             if (user != null && user.CheckPassword(TxtPassword.Text))
             {

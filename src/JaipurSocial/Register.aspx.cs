@@ -26,7 +26,7 @@ public partial class Register : System.Web.UI.Page
 
             using (var db = new JaipurEntities())
             {
-                if (!db.User.Any(u => u.CheckLogin(TxtLogin.Text)))
+                if (!db.User.Any(u => u.Login.ToLower() == TxtLogin.Text.ToLower()))
                 {
                     db.User.Add(new User
                     {
