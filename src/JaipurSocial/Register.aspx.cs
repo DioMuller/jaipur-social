@@ -20,18 +20,18 @@ public partial class Register : System.Web.UI.Page
     }
     protected void BtnRegister_Click(object sender, EventArgs e)
     {
-        if( IsValid )
+        if (IsValid)
         {
             byte[] bytes = CryptoHelper.GetHash(TxtPassword.Text);
 
             using (var db = new JaipurEntities())
             {
-                if( db.User.Where( (u) => u.Login.ToLower() == TxtLogin.Text.ToLower() ).Count() == 0 )
-                { 
-                    db.User.Add(new User() 
-                    { 
+                if (!db.User.Any(u => u.CheckLogin(TxtLogin.Text)))
+                {
+                    db.User.Add(new User
+                    {
                         Login = TxtLogin.Text,
-                        Email = TxtEmail.Text, 
+                        Email = TxtEmail.Text,
                         Password = bytes
                     });
                     db.SaveChanges();
