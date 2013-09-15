@@ -16,7 +16,7 @@ public class CardContainer
     {
         get
         {
-            if (Visible) return Type.GetCardImage();
+            if (Visible) return Type.GetCardImage() + ".png";
             else return "Images/card-hidden.png";
         }
     }

@@ -7,7 +7,7 @@ using JaipurSocial.Data;
 
 namespace JaipurSocial.Core
 {
-    class GameData
+    public class GameData
     {
         #region Properties
         public bool EnemyTurn { get; private set; }

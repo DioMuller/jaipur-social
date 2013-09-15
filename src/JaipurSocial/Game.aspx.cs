@@ -55,7 +55,7 @@ public partial class Game : System.Web.UI.Page
         {
             if( Enemy != null )
             {
-                GameData = new GameData(CurrentUser, Enemy);
+                GameData = GameData.CreateNewGame(CurrentUser, Enemy);
             }
             else
             {
@@ -64,21 +64,23 @@ public partial class Game : System.Web.UI.Page
         }
         #endregion New Game
 
-        if (GameData.Player1.User.Id == CurrentUser.Id) //That's me!
+        if (GameData.ChallengerData.User.Id == CurrentUser.Id) //That's me!
         {
-            DlMyCards.DataSource = GetContainer(GameData.Player1.Hand, true);
-            DlEnemyCards.DataSource = GetContainer(GameData.Player2.Hand, false);
+            DlMyCards.DataSource = GetContainer(GameData.ChallengerData.Hand, true);
+            DlEnemyCards.DataSource = GetContainer(GameData.EnemyData.Hand, false);
         }
         else
         {
-            DlMyCards.DataSource = GetContainer(GameData.Player2.Hand, true);
-            DlEnemyCards.DataSource = GetContainer(GameData.Player1.Hand, false);
+            DlMyCards.DataSource = GetContainer(GameData.EnemyData.Hand, true);
+            DlEnemyCards.DataSource = GetContainer(GameData.ChallengerData.Hand, false);
         }
+        DlMyCards.DataBind();
+        DlEnemyCards.DataBind();
     }
 
 
     #region Methods
-    List<CardContainer> GetContainer(List<Card> cards, bool visible)
+    List<CardContainer> GetContainer(IReadOnlyList<Card> cards, bool visible)
     {
         #region Cards
         List<CardContainer> container = new List<CardContainer>();
