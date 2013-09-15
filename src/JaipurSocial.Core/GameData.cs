@@ -14,9 +14,25 @@ namespace JaipurSocial.Core
 
         public PlayerData ChallengerData { get; private set; }
         public PlayerData EnemyData { get; private set; }
+
         public List<Card> OnTable { get; private set; }
         public Dictionary<Card, int> Resources { get; private set; }
         public Stack<Card> OnDeck { get; private set; }
+
+        public bool IsGameFinished
+        {
+            get { return !OnDeck.Any() || Resources.Count(r => r.Value <= 0) >= 3; }
+        }
+
+        public User Winner
+        {
+            get
+            {
+                if(!IsGameFinished)
+                    return null;
+                return new[] { ChallengerData, EnemyData }.OrderByDescending(d => d.Points).FirstOrDefault().User;
+            }
+        }
         #endregion
 
         #region Constructors
@@ -171,9 +187,10 @@ namespace JaipurSocial.Core
 
             foreach (var card in cards)
             {
+                var points = GetNextValue(card);
                 data.TakeCard(card);
                 if(Resources.Remove(card))
-                    data.Resources.Add(card);
+                    data.Points += points;
             }
 
             // TODO: Ammount count Bonus.
@@ -200,6 +217,66 @@ namespace JaipurSocial.Core
             {
                 OnDeck.Push(card);
             }
+        }
+
+        private int GetNextValue(Card card)
+        {
+            switch (card)
+            {
+                case Card.Gold:
+                    if(Resources[card] >= 4)
+                        return 6;
+                    if (Resources[card] >= 1)
+                        return 5;
+                    break;
+
+                case Card.Ruby:
+                    if (Resources[card] >= 4)
+                        return 7;
+                    if (Resources[card] >= 1)
+                        return 5;
+                    break;
+
+                case Card.Silver:
+                    if (Resources[card] >= 1)
+                        return 5;
+                    break;
+
+                case Card.Silk:
+                    if (Resources[card] >= 7)
+                        return 5;
+                    if (Resources[card] >= 5)
+                        return 3;
+                    if (Resources[card] >= 3)
+                        return 2;
+                    if (Resources[card] >= 1)
+                        return 1;
+                    break;
+
+                case Card.Spices:
+                    if (Resources[card] >= 7)
+                        return 5;
+                    if (Resources[card] >= 5)
+                        return 3;
+                    if (Resources[card] >= 3)
+                        return 2;
+                    if (Resources[card] >= 1)
+                        return 1;
+                    break;
+
+                case Card.Leather:
+                    if (Resources[card] >= 9)
+                        return 4;
+                    if (Resources[card] >= 8)
+                        return 3;
+                    if (Resources[card] >= 7)
+                        return 2;
+                    if (Resources[card] >= 1)
+                        return 1;
+                    break;
+            }
+
+            throw new InvalidOperationException("Invalid card");
         }
         #endregion
     }
