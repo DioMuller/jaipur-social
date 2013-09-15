@@ -7,68 +7,181 @@ using JaipurSocial.Data;
 
 namespace JaipurSocial.Core
 {
-    public class GameData
+    class GameData
     {
-        public PlayerData Player1 { get; private set; }
-        public PlayerData Player2 { get; private set; }
+        #region Properties
+        public bool EnemyTurn { get; private set; }
+
+        public PlayerData ChallengerData { get; private set; }
+        public PlayerData EnemyData { get; private set; }
         public List<Card> OnTable { get; private set; }
         public Dictionary<Card, int> Resources { get; private set; }
         public Stack<Card> OnDeck { get; private set; }
+        #endregion
 
-        public GameData(User challenger, User enemy)
+        #region Constructors
+        private GameData(User challenger, User enemy)
         {
-            CreateNewGame(challenger, enemy);
-        }
-
-        public void CreateNewGame(User challenger, User enemy)
-        {
-            Player1 = new PlayerData(challenger);
-            Player2 = new PlayerData(enemy);
+            ChallengerData = new PlayerData(challenger);
+            EnemyData = new PlayerData(enemy);
             OnTable = new List<Card>(5);
-            OnDeck = new Stack<Card>();
-
-            #region Initialize Deck
-            for( int i = 0; i < 11; i++ )
+            Resources = new Dictionary<Card, int>
             {
-                if( i < 6 ) //6 Cards on Game
-                {
-                    OnDeck.Push(Card.Ruby);
-                    OnDeck.Push(Card.Gold);
-                    OnDeck.Push(Card.Silver);
-                }
-                if( i < 8 ) //8 Cards on Game
-                {
-                    OnDeck.Push(Card.Silk);
-                    OnDeck.Push(Card.Spices);
-                }
-                if( i < 10 ) //10 Cards on Game
-                {
-                    OnDeck.Push(Card.Leather);
-                }
+                {Card.Gold, 5},
+                {Card.Ruby, 5},
+                {Card.Silver, 5},
+                {Card.Silk, 7},
+                {Card.Spices, 7},
+                {Card.Leather, 9},
+            };
 
-                //11 Cards on Game
-                OnDeck.Push(Card.Camel);
+            var cards = Enumerable.Repeat(Card.Ruby, 6).Concat(
+                        Enumerable.Repeat(Card.Gold, 6)).Concat(
+                        Enumerable.Repeat(Card.Silver, 6)).Concat(
+                        Enumerable.Repeat(Card.Silk, 8)).Concat(
+                        Enumerable.Repeat(Card.Spices, 8)).Concat(
+                        Enumerable.Repeat(Card.Leather, 10)).Concat(
+                        Enumerable.Repeat(Card.Camel, 11));
+
+            OnDeck = new Stack<Card>(cards);
+        }
+        #endregion
+
+        public static GameData CreateNewGame(User challenger, User enemy)
+        {
+            var data = new GameData(challenger, enemy);
+
+            data.ShuffleCards();
+
+            for (int i = 0; i < 5; i++)
+            {
+                data.ChallengerData.GiveCard(data.OnDeck.Pop());
+                data.EnemyData.GiveCard(data.OnDeck.Pop());
             }
 
-            ShuffleCards();
-            #endregion Initialize Deck
+            data.DrawCards();
 
-            Resources = new Dictionary<Card,int>();
-            Resources[Card.Gold] = 5;
-            Resources[Card.Ruby] = 5;
-            Resources[Card.Silver] = 5;
-            Resources[Card.Silk] = 7;
-            Resources[Card.Spices] = 7;
-            Resources[Card.Leather] = 9;
+            return data;
+        }
 
-            for( int i = 0; i < 5; i++ )
+        public bool IsCurrentTurn(User player)
+        {
+            if (EnemyTurn)
+                return player.Login.ToLower() == EnemyData.User.Login.ToLower();
+            return player.Login.ToLower() == ChallengerData.User.Login.ToLower();
+        }
+
+        public PlayerData GetPlayerData(User player, bool validateTurn = false)
+        {
+            if (validateTurn && !IsCurrentTurn(player))
+                throw new InvalidOperationException("Game is not on player's turn");
+
+            return new[] { ChallengerData, EnemyData }
+                .First(d => d.User.Login.ToLower() == player.Login.ToLower());
+        }
+
+        #region Game Operations
+        public void TakeCard(User player, Card selectedCard)
+        {
+            var data = GetPlayerData(player, true);
+
+            if (selectedCard == Card.Camel)
+                throw new InvalidOperationException("Use TakeCamels instead");
+
+            if (data.Hand.Count() >= 7)
+                throw new InvalidOperationException("Current player already have 7 cards at hand");
+
+            if (!OnTable.Contains(selectedCard))
+                throw new InvalidOperationException("Selected card is not on the table");
+
+            OnTable.Remove(selectedCard);
+            data.GiveCard(selectedCard);
+            DrawCards();
+        }
+
+        public void TradeCards(User player, List<Card> hand, List<Card> table)
+        {
+            var data = GetPlayerData(player, true);
+
+            if (hand.Count() != table.Count())
+                throw new InvalidOperationException("Cards must be traded equally");
+
+            if (!hand.Any())
+                throw new InvalidOperationException("No cards to trade");
+
+            Dictionary<Card, int> handCardsToTrade = hand.GroupBy(c => c).ToDictionary(k => k.Key, k => k.Count());
+            Dictionary<Card, int> tableCardsToTrade = table.GroupBy(c => c).ToDictionary(k => k.Key, k => k.Count());
+
+            if (handCardsToTrade.Any(c => (c.Key == Card.Camel && data.Camels < c.Value)
+                || (c.Key != Card.Camel && data.Hand.Count(h => h == c.Key) < c.Value)))
+                throw new InvalidOperationException("Invalid hand cards");
+
+            if (tableCardsToTrade.Any(c => OnTable.Count(t => t == c.Key) < c.Value))
+                throw new InvalidOperationException("Invalid table cards");
+
+            foreach (var card in hand)
             {
-                Player1.GiveCard(OnDeck.Pop());
-                Player2.GiveCard(OnDeck.Pop());
+                data.TakeCard(card);
+                OnTable.Add(card);
+            }
+
+            foreach (var card in table)
+            {
+                OnTable.Remove(card);
+                data.GiveCard(card);
             }
         }
 
-        public void DrawCards()
+        public void TakeCamels(User player)
+        {
+            var data = GetPlayerData(player, true);
+            bool tookCamels = false;
+
+            foreach (var card in OnTable.Where(c => c == Card.Camel).ToList())
+            {
+                OnTable.Remove(card);
+                data.GiveCard(card);
+                tookCamels = true;
+            }
+
+            if (!tookCamels)
+                throw new InvalidOperationException("No camels on the table");
+
+            DrawCards();
+        }
+
+        public void SellCards(User player, Card card, int ammount)
+        {
+            SellCards(player, Enumerable.Repeat(card, ammount).ToList());
+        }
+
+        public void SellCards(User player, List<Card> cards)
+        {
+            var data = GetPlayerData(player, true);
+
+            if (!cards.Any())
+                throw new InvalidOperationException("No cards selected to sell");
+
+            var type = cards.First();
+            if (cards.Skip(1).Any(c => c != type))
+                throw new InvalidOperationException("All cards must be of the same type");
+
+            if(type == Card.Camel)
+                throw new Exception("Camels cannot be sold");
+
+            foreach (var card in cards)
+            {
+                data.TakeCard(card);
+                if(Resources.Remove(card))
+                    data.Resources.Add(card);
+            }
+
+            // TODO: Ammount count Bonus.
+        }
+        #endregion
+
+        #region Private
+        private void DrawCards()
         {
             while (OnTable.Count < 5)
             {
@@ -76,17 +189,18 @@ namespace JaipurSocial.Core
             }
         }
 
-        public void ShuffleCards()
+        private void ShuffleCards()
         {
-            Random rng = new Random(DateTime.Now.Millisecond);
-            var ordered = OnDeck.OrderBy( (c) => rng.Next() );
+            Random rng = new Random(Environment.TickCount);
+            var ordered = OnDeck.OrderBy(c => rng.Next()).ToList();
 
             OnDeck.Clear();
 
-            foreach( Card card in ordered )
+            foreach (Card card in ordered)
             {
                 OnDeck.Push(card);
             }
         }
+        #endregion
     }
 }
