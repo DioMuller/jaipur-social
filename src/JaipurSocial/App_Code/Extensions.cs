@@ -11,6 +11,6 @@ public static class Extensions
 {
     public static bool CheckPassword(this User user, string password)
     {
-        return Array.Equals(user.Password, CryptoHelper.GetHash(password));
+        return user.Password.SequenceEqual(CryptoHelper.GetHash(password));
     }
 }
