@@ -16,8 +16,7 @@ namespace JaipurSocial.Core
         public User User { get; private set; }
         public IReadOnlyList<Card> Hand { get { return _hand; } }
         public int Camels { get; private set; }
-
-        public List<Card> Resources { get; private set; }
+        public int Points { get; internal set; }
 
         public PlayerData(User user)
         {
