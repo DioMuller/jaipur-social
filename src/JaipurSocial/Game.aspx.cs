@@ -64,34 +64,21 @@ public partial class Game : System.Web.UI.Page
         }
         #endregion New Game
 
+        PlayerData player;
+        PlayerData other;
+
         if (GameData.ChallengerData.User.Id == CurrentUser.Id) //That's me!
         {
-            DlMyCards.DataSource = GetContainer(GameData.ChallengerData.Hand, true);
-            DlEnemyCards.DataSource = GetContainer(GameData.EnemyData.Hand, false);
+            player = GameData.ChallengerData;
+            other = GameData.EnemyData;
         }
         else
         {
-            DlMyCards.DataSource = GetContainer(GameData.EnemyData.Hand, true);
-            DlEnemyCards.DataSource = GetContainer(GameData.ChallengerData.Hand, false);
+            other = GameData.ChallengerData;
+            player = GameData.EnemyData;
         }
-        DlMyCards.DataBind();
-        DlEnemyCards.DataBind();
+
+        UcPlayer.LoadData(player);
+        UcEnemy.LoadData(other);
     }
-
-
-    #region Methods
-    List<CardContainer> GetContainer(IReadOnlyList<Card> cards, bool visible)
-    {
-        #region Cards
-        List<CardContainer> container = new List<CardContainer>();
-
-        foreach (Card c in cards)
-        {
-            container.Add(new CardContainer() { Type = c, Visible = visible });
-        }
-        #endregion Cards
-
-        return container;
-    }
-    #endregion Methods
 }

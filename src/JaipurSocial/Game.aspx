@@ -1,25 +1,20 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Game.aspx.cs" Inherits="Game" %>
 
+<%@ Register Src="~/Controls/UcPlayer.ascx" TagPrefix="uc1" TagName="UcPlayer" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="Body" Runat="Server">
     <table>
     <tr>
         <td>
             <!-- Enemy Data -->
-            <asp:DataList ID="DlEnemyCards" RepeatDirection="Horizontal" runat="server">
-                <ItemTemplate>
-                    <asp:Image ID="ImgEnemyCard" ImageUrl='<%# Bind("Image") %>' runat="server"/>
-                </ItemTemplate>
-            </asp:DataList>
+            <uc1:UcPlayer runat="server" ID="UcEnemy" />
         </td>
     </tr>
-        <tr>
+    <tr>
         <td>
             <!-- Player Data -->
-            <asp:DataList ID="DlMyCards" RepeatDirection="Horizontal" runat="server">
-                <ItemTemplate>
-                    <asp:Image ID="ImgMyCard" ImageUrl='<%# Bind("Image") %>' runat="server"/>
-                </ItemTemplate>
-            </asp:DataList>
+            <uc1:UcPlayer runat="server" ID="UcPlayer" />
         </td>
     </tr>
     </table>
