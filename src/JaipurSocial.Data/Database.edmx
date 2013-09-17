@@ -5,24 +5,44 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="ModelStoreContainer">
-          <EntitySet Name="User" EntityType="Model.Store.User" store:Type="Tables" Schema="dbo" />
-        </EntityContainer>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="varchar" Nullable="false" MaxLength="256" />
-          <Property Name="Password" Type="varbinary" Nullable="false" MaxLength="256" />
-          <Property Name="Login" Type="varchar" Nullable="false" MaxLength="50" />
-        </EntityType>
-      </Schema></edmx:StorageModels>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="User" EntityType="Model.Store.User" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GameSet" EntityType="Model.Store.GameSet" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="varchar" Nullable="false" MaxLength="256" />
+    <Property Name="Password" Type="varbinary" Nullable="false" MaxLength="256" />
+    <Property Name="Login" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="GameSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EnemyTurn" Type="bit" Nullable="false" />
+    <Property Name="OnTable" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OnDeck" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Resources" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ChallengerId" Type="int" Nullable="false" />
+    <Property Name="ChallengerHand" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ChallengerPoints" Type="int" Nullable="false" />
+    <Property Name="ChallengerCamels" Type="int" Nullable="false" />
+    <Property Name="EnemyId" Type="int" Nullable="false" />
+    <Property Name="EnemyHand" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EnemyPoints" Type="int" Nullable="false" />
+    <Property Name="EnemyCamels" Type="int" Nullable="false" />
+  </EntityType>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="JaipurEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="User" EntityType="Model.User" />
+          <EntitySet Name="GameSet" EntityType="Model.Game" />
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -33,25 +53,61 @@
           <Property Name="Password" Type="Binary" Nullable="false" MaxLength="256" FixedLength="false" />
           <Property Type="String" Name="Login" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Boolean" Name="EnemyTurn" Nullable="false" />
+          <Property Type="String" Name="OnTable" Nullable="false" />
+          <Property Type="String" Name="OnDeck" Nullable="false" />
+          <Property Type="String" Name="Resources" Nullable="false" />
+          <Property Type="Int32" Name="ChallengerId" Nullable="false" />
+          <Property Type="String" Name="ChallengerHand" Nullable="false" />
+          <Property Type="Int32" Name="ChallengerPoints" Nullable="false" />
+          <Property Type="Int32" Name="ChallengerCamels" Nullable="false" />
+          <Property Type="Int32" Name="EnemyId" Nullable="false" />
+          <Property Type="String" Name="EnemyHand" Nullable="false" />
+          <Property Type="Int32" Name="EnemyPoints" Nullable="false" />
+          <Property Type="Int32" Name="EnemyCamels" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="JaipurEntities">
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="Model.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="JaipurEntities">
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.User)">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GameSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Game)">
+        <MappingFragment StoreEntitySet="GameSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EnemyTurn" ColumnName="EnemyTurn" />
+          <ScalarProperty Name="OnTable" ColumnName="OnTable" />
+          <ScalarProperty Name="OnDeck" ColumnName="OnDeck" />
+          <ScalarProperty Name="Resources" ColumnName="Resources" />
+          <ScalarProperty Name="ChallengerId" ColumnName="ChallengerId" />
+          <ScalarProperty Name="ChallengerHand" ColumnName="ChallengerHand" />
+          <ScalarProperty Name="ChallengerPoints" ColumnName="ChallengerPoints" />
+          <ScalarProperty Name="ChallengerCamels" ColumnName="ChallengerCamels" />
+          <ScalarProperty Name="EnemyId" ColumnName="EnemyId" />
+          <ScalarProperty Name="EnemyHand" ColumnName="EnemyHand" />
+          <ScalarProperty Name="EnemyPoints" ColumnName="EnemyPoints" />
+          <ScalarProperty Name="EnemyCamels" ColumnName="EnemyCamels" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">

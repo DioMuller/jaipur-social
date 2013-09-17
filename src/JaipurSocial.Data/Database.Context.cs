@@ -26,5 +26,6 @@ namespace JaipurSocial.Data
         }
     
         public DbSet<User> User { get; set; }
+        public DbSet<Game> GameSet { get; set; }
     }
 }

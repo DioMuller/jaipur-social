@@ -16,8 +16,8 @@ namespace JaipurSocial.Core
         public PlayerData EnemyData { get; private set; }
 
         public List<Card> OnTable { get; private set; }
-        public Dictionary<Card, int> Resources { get; private set; }
         public Stack<Card> OnDeck { get; private set; }
+        public Dictionary<Card, int> Resources { get; private set; }
 
         public bool IsGameFinished
         {
@@ -28,7 +28,7 @@ namespace JaipurSocial.Core
         {
             get
             {
-                if(!IsGameFinished)
+                if (!IsGameFinished)
                     return null;
                 return new[] { ChallengerData, EnemyData }.OrderByDescending(d => d.Points).FirstOrDefault().User;
             }
@@ -182,18 +182,91 @@ namespace JaipurSocial.Core
             if (cards.Skip(1).Any(c => c != type))
                 throw new InvalidOperationException("All cards must be of the same type");
 
-            if(type == Card.Camel)
+            if (type == Card.Camel)
                 throw new Exception("Camels cannot be sold");
 
             foreach (var card in cards)
             {
                 var points = GetNextValue(card);
                 data.TakeCard(card);
-                if(Resources.Remove(card))
+                if (Resources.Remove(card))
                     data.Points += points;
             }
 
             // TODO: Ammount count Bonus.
+        }
+        #endregion
+
+        #region DataBase
+        public Game ToGame()
+        {
+            Func<IEnumerable<Card>, string> serializeCards =
+                list => list.Aggregate(new StringBuilder(), (sb, c) => sb.Append((int)c)).ToString();
+
+            Func<Dictionary<Card, int>, string> serializeResources =
+                list => list.Aggregate(new StringBuilder(), (sb, kv) => sb.Append((int)kv.Key).Append(kv.Value)).ToString();
+
+            return new Game
+            {
+                EnemyTurn = EnemyTurn,
+
+                OnTable = serializeCards(OnTable),
+                OnDeck = serializeCards(OnDeck),
+                Resources = serializeResources(Resources),
+
+                ChallengerId = ChallengerData.User.Id,
+                ChallengerHand = serializeCards(ChallengerData.Hand),
+                ChallengerCamels = ChallengerData.Camels,
+                ChallengerPoints = ChallengerData.Points,
+
+                EnemyId = EnemyData.User.Id,
+                EnemyHand = serializeCards(EnemyData.Hand),
+                EnemyCamels = EnemyData.Camels,
+                EnemyPoints = EnemyData.Points,
+            };
+        }
+
+        public GameData(Game game)
+        {
+            Func<string, IEnumerable<Card>> deserializeCards =
+                str => str.Select(c => (Card)int.Parse(c.ToString()));
+
+            Func<string, Dictionary<Card, int>> deserializeResources =
+                str => {
+                    var serializedCards = new Dictionary<Card,int>();
+                    for(int i =0; i < str.Length; i+= 2)
+                        serializedCards.Add((Card)int.Parse(str[i].ToString()), int.Parse(str[i+1].ToString()));
+                    return serializedCards;
+                };
+
+            EnemyTurn = game.EnemyTurn;
+
+            OnDeck = new Stack<Card>(deserializeCards(game.OnDeck));
+            OnTable = deserializeCards(game.OnTable).ToList();
+            Resources = deserializeResources(game.Resources);
+
+            using (var db = new JaipurEntities())
+            {
+                ChallengerData = new PlayerData(db.User.First(u => u.Id == game.ChallengerId))
+                {
+                    Points = game.ChallengerPoints
+                };
+
+                foreach (var card in deserializeCards(game.ChallengerHand))
+                    ChallengerData.GiveCard(card);
+                foreach(var card in Enumerable.Repeat(Card.Camel, game.ChallengerCamels))
+                    ChallengerData.GiveCard(card);
+
+                EnemyData = new PlayerData(db.User.First(u => u.Id == game.EnemyId))
+                {
+                    Points = game.EnemyPoints
+                };
+
+                foreach (var card in deserializeCards(game.EnemyHand))
+                    EnemyData.GiveCard(card);
+                foreach (var card in Enumerable.Repeat(Card.Camel, game.EnemyCamels))
+                    EnemyData.GiveCard(card);
+            }
         }
         #endregion
 
@@ -224,7 +297,7 @@ namespace JaipurSocial.Core
             switch (card)
             {
                 case Card.Gold:
-                    if(Resources[card] >= 4)
+                    if (Resources[card] >= 4)
                         return 6;
                     if (Resources[card] >= 1)
                         return 5;
