@@ -8,7 +8,7 @@
     </tr>
     <tr>
         <td>
-            <asp:DataList ID="DlCards" RepeatDirection="Horizontal" runat="server">
+            <asp:DataList ID="DlCards" RepeatDirection="Horizontal" runat="server" Width="700" BackColor="DarkBlue">
                 <ItemTemplate>
                     <asp:Image ID="ImgCard" Height="121" Width="97" ImageUrl='<%# Bind("RelativeImage") %>' runat="server"/>
                 </ItemTemplate>
