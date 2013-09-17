@@ -226,16 +226,17 @@ namespace JaipurSocial.Core
             };
         }
 
-        public GameData(Game game)
+        public GameData(Game game, User challenger, User enemy)
         {
             Func<string, IEnumerable<Card>> deserializeCards =
                 str => str.Select(c => (Card)int.Parse(c.ToString()));
 
             Func<string, Dictionary<Card, int>> deserializeResources =
-                str => {
-                    var serializedCards = new Dictionary<Card,int>();
-                    for(int i =0; i < str.Length; i+= 2)
-                        serializedCards.Add((Card)int.Parse(str[i].ToString()), int.Parse(str[i+1].ToString()));
+                str =>
+                {
+                    var serializedCards = new Dictionary<Card, int>();
+                    for (int i = 0; i < str.Length; i += 2)
+                        serializedCards.Add((Card)int.Parse(str[i].ToString()), int.Parse(str[i + 1].ToString()));
                     return serializedCards;
                 };
 
@@ -245,28 +246,21 @@ namespace JaipurSocial.Core
             OnTable = deserializeCards(game.OnTable).ToList();
             Resources = deserializeResources(game.Resources);
 
-            using (var db = new JaipurEntities())
-            {
-                ChallengerData = new PlayerData(db.User.First(u => u.Id == game.ChallengerId))
-                {
-                    Points = game.ChallengerPoints
-                };
 
-                foreach (var card in deserializeCards(game.ChallengerHand))
-                    ChallengerData.GiveCard(card);
-                foreach(var card in Enumerable.Repeat(Card.Camel, game.ChallengerCamels))
-                    ChallengerData.GiveCard(card);
+            ChallengerData = new PlayerData(challenger) { Points = game.ChallengerPoints };
 
-                EnemyData = new PlayerData(db.User.First(u => u.Id == game.EnemyId))
-                {
-                    Points = game.EnemyPoints
-                };
+            foreach (var card in deserializeCards(game.ChallengerHand))
+                ChallengerData.GiveCard(card);
+            foreach (var card in Enumerable.Repeat(Card.Camel, game.ChallengerCamels))
+                ChallengerData.GiveCard(card);
 
-                foreach (var card in deserializeCards(game.EnemyHand))
-                    EnemyData.GiveCard(card);
-                foreach (var card in Enumerable.Repeat(Card.Camel, game.EnemyCamels))
-                    EnemyData.GiveCard(card);
-            }
+
+            EnemyData = new PlayerData(enemy) { Points = game.EnemyPoints };
+
+            foreach (var card in deserializeCards(game.EnemyHand))
+                EnemyData.GiveCard(card);
+            foreach (var card in Enumerable.Repeat(Card.Camel, game.EnemyCamels))
+                EnemyData.GiveCard(card);
         }
         #endregion
 
