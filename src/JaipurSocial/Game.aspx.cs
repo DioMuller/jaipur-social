@@ -78,7 +78,10 @@ public partial class Game : System.Web.UI.Page
             player = GameData.EnemyData;
         }
 
-        UcPlayer.LoadData(player);
-        UcEnemy.LoadData(other);
+        UcPlayer.LoadData(player, true);
+        UcEnemy.LoadData(other, false);
+
+        DlCards.DataSource = CardContainer.GetContainer(GameData.OnTable, true);
+        DlCards.DataBind();
     }
 }

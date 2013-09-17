@@ -123,11 +123,17 @@
   <data name="Challenge" xml:space="preserve">
     <value>Desafiar</value>
   </data>
+  <data name="ChallengePeople" xml:space="preserve">
+    <value>Desafiar Pessoas</value>
+  </data>
   <data name="ConfirmEmail" xml:space="preserve">
     <value>Confirmar Email</value>
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Confirmar Senha</value>
+  </data>
+  <data name="CurrentGames" xml:space="preserve">
+    <value>Jogos Atuais</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>

@@ -26,3 +26,19 @@ table.center
     margin-left:auto; 
     margin-right:auto;
 }
+
+.gridview th
+{
+    font-size: large;
+    font-weight: bold;
+    color: white;
+    background: #222266;
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.gridview td
+{
+    border: 1px solid black;
+    padding: 8px;
+}

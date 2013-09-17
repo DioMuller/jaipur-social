@@ -13,9 +13,9 @@ public partial class Controls_UcPlayer : System.Web.UI.UserControl
 
     }
 
-    public void LoadData(PlayerData data)
+    public void LoadData(PlayerData data, bool visible)
     {
-        DlCards.DataSource = CardContainer.GetContainer(data.Hand, true);
+        DlCards.DataSource = CardContainer.GetContainer(data.Hand, visible);
         DlCards.DataBind();
 
         LabelName.Text = data.User.Login;
