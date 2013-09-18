@@ -78,6 +78,13 @@ public partial class Game : System.Web.UI.Page
             player = GameData.EnemyData;
         }
 
+        LblGold.Text = GameData.Resources[Card.Gold].ToString();
+        LblSilk.Text = GameData.Resources[Card.Silk].ToString();
+        LblSilver.Text = GameData.Resources[Card.Silver].ToString();
+        LblSpices.Text = GameData.Resources[Card.Spices].ToString();
+        LblRuby.Text = GameData.Resources[Card.Ruby].ToString();
+        LblLeather.Text = GameData.Resources[Card.Leather].ToString();
+
         UcPlayer.LoadData(player, true);
         UcEnemy.LoadData(other, false);
 
