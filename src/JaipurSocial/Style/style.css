@@ -1,7 +1,7 @@
 ﻿div.header
 {
     text-align: center; 
-    background: #6495ED;
+    background: #222266;/*#6495ED;*/
     height: 120px;
     background-image:url("/Images/detail.png");
     background-repeat:repeat-x;
@@ -18,7 +18,7 @@ div.footer
 {
     text-align: center; 
     color: white;
-    background: #6495ED;
+    background: #222266;/*#6495ED;*/
 }
 
 table.center 
@@ -39,6 +39,6 @@ table.center
 
 .gridview td
 {
-    border: 1px solid black;
+    border: 1px solid #222266;
     padding: 8px;
 }
