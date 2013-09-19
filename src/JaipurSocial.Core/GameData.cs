@@ -220,7 +220,7 @@ namespace JaipurSocial.Core
             };
         }
 
-        public GameData(Game game, User challenger, User enemy)
+        public GameData(Game game)
         {
             EnemyTurn = game.EnemyTurn;
 
@@ -228,16 +228,19 @@ namespace JaipurSocial.Core
             OnTable = DeserializeCards(game.OnTable).ToList();
             Resources = DeserializeResources(game.Resources);
 
+            using (var db = new JaipurEntities())
+            {
+                var challenger = db.User.FirstOrDefault(u => u.Id == game.ChallengerId);
+                var enemy = db.User.FirstOrDefault(u => u.Id == game.EnemyId);
 
-            ChallengerData = new PlayerData(challenger) { Points = game.ChallengerPoints };
+                ChallengerData = new PlayerData(challenger) { Points = game.ChallengerPoints };
+                EnemyData = new PlayerData(enemy) { Points = game.EnemyPoints };
+            }
 
             foreach (var card in DeserializeCards(game.ChallengerHand))
                 ChallengerData.GiveCard(card);
             foreach (var card in Enumerable.Repeat(Card.Camel, game.ChallengerCamels))
                 ChallengerData.GiveCard(card);
-
-
-            EnemyData = new PlayerData(enemy) { Points = game.EnemyPoints };
 
             foreach (var card in DeserializeCards(game.EnemyHand))
                 EnemyData.GiveCard(card);

@@ -165,4 +165,7 @@
   <data name="RequiredValidatePassword" xml:space="preserve">
     <value>Senha e Validação de Senha devem ser iguais</value>
   </data>
+  <data name="ViewGame" xml:space="preserve">
+    <value>Ver jogo</value>
+  </data>
 </root>

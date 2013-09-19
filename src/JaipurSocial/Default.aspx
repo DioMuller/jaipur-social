@@ -10,7 +10,21 @@
         <tr>
             <!-- Current Games -->
             <td>
-                
+                <asp:GridView ID="GridGames" CssClass="gridview" runat="server" AutoGenerateColumns="false" OnRowCommand="GridGames_RowCommand" DataKeyNames="GameId">
+                        <Columns>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                            <ajaxToolkit:Gravatar ID="Gravatar1" runat="server"
+                                Email='<%#Bind("EnemyEmail") %>'
+                                Size="32"
+                                Rating="R"
+                                DefaultImageBehavior="MysteryMan"/>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="EnemyLogin" HeaderText="<%$ Resources:Localization, Merchant %>" />
+                        <asp:ButtonField ButtonType="Link" Text="<%$ Resources:Localization, ViewGame %>" CommandName="ViewGame" />
+                        </Columns>
+                </asp:GridView>
             </td>
             <td>
             <!-- Something? -->
