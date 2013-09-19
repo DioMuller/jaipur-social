@@ -29,6 +29,10 @@ public partial class Game : LocalizablePage
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if( Request.QueryString["GameId"] == null )
+        {
+            Response.Redirect("default.aspx");
+        }
         #region Load Game
         using (var db = new JaipurEntities())
         {
@@ -77,5 +81,25 @@ public partial class Game : LocalizablePage
 
         DlCards.DataSource = CardContainer.GetContainer(GameData.OnTable, true);
         DlCards.DataBind();
+    }
+
+    protected void BtnBuy_OnClick(object sender, EventArgs e)
+    {
+        
+    }
+
+    protected void BtnTrade_OnClick(object sender, EventArgs e)
+    {
+        
+    }
+
+    protected void BtnBuyAllCamels_OnClick(object sender, EventArgs e)
+    {
+        
+    }
+
+    protected void BtnSell_OnClick(object sender, EventArgs e)
+    {
+        
     }
 }
