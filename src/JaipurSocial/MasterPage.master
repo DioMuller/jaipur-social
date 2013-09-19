@@ -18,6 +18,11 @@
         <!-- HEADER -->
         <div class="header">
             <asp:Image ID="ImageTitle" ImageUrl="./Images/title.png" runat="server"/>
+            <!-- LANGUAGES -->
+            <div style="position:fixed; top:10px; right:10px;">
+                <asp:ImageButton ID="ButtonEnglish" OnClick="ButtonEnglish_Click" ImageUrl="Images/flag-uk.png" runat="server"/>
+                <asp:ImageButton ID="ButtonPortuguese" OnClick="ButtonPortuguese_Click" ImageUrl="Images/flag-brazil.png" runat="server"/>
+            </div>
         </div>  
         <!-- BODY -->
         <div class="center">

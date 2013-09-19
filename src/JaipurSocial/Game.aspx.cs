@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using JaipurSocial.Core;
 using JaipurSocial.Data;
 
-public partial class Game : System.Web.UI.Page
+public partial class Game : LocalizablePage
 {
     #region Session Properties
     private GameData GameData
