@@ -7,7 +7,7 @@
     <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="ModelStoreContainer">
     <EntitySet Name="User" EntityType="Model.Store.User" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="GameSet" EntityType="Model.Store.GameSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Game" EntityType="Model.Store.Game" store:Type="Tables" Schema="dbo" />
   </EntityContainer>
   <EntityType Name="User">
     <Key>
@@ -18,7 +18,7 @@
     <Property Name="Password" Type="varbinary" Nullable="false" MaxLength="256" />
     <Property Name="Login" Type="varchar" Nullable="false" MaxLength="50" />
   </EntityType>
-  <EntityType Name="GameSet">
+  <EntityType Name="Game">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -42,7 +42,7 @@
       <Schema Namespace="Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="JaipurEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="User" EntityType="Model.User" />
-          <EntitySet Name="GameSet" EntityType="Model.Game" />
+          <EntitySet Name="Game" EntityType="Model.Game" />
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -87,9 +87,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="GameSet">
+    <EntitySetMapping Name="Game">
       <EntityTypeMapping TypeName="IsTypeOf(Model.Game)">
-        <MappingFragment StoreEntitySet="GameSet">
+        <MappingFragment StoreEntitySet="Game">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="EnemyTurn" ColumnName="EnemyTurn" />
           <ScalarProperty Name="OnTable" ColumnName="OnTable" />

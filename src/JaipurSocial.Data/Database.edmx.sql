@@ -39,8 +39,8 @@ CREATE TABLE [dbo].[User] (
 );
 GO
 
--- Creating table 'GameSet'
-CREATE TABLE [dbo].[GameSet] (
+-- Creating table 'Game'
+CREATE TABLE [dbo].[Game] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [EnemyTurn] bit  NOT NULL,
     [OnTable] nvarchar(max)  NOT NULL,
@@ -67,9 +67,9 @@ ADD CONSTRAINT [PK_User]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'GameSet'
-ALTER TABLE [dbo].[GameSet]
-ADD CONSTRAINT [PK_GameSet]
+-- Creating primary key on [Id] in table 'Game'
+ALTER TABLE [dbo].[Game]
+ADD CONSTRAINT [PK_Game]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

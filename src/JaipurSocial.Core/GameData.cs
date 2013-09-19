@@ -200,67 +200,75 @@ namespace JaipurSocial.Core
         #region DataBase
         public Game ToGame()
         {
-            Func<IEnumerable<Card>, string> serializeCards =
-                list => list.Aggregate(new StringBuilder(), (sb, c) => sb.Append((int)c)).ToString();
-
-            Func<Dictionary<Card, int>, string> serializeResources =
-                list => list.Aggregate(new StringBuilder(), (sb, kv) => sb.Append((int)kv.Key).Append(kv.Value)).ToString();
-
             return new Game
             {
                 EnemyTurn = EnemyTurn,
 
-                OnTable = serializeCards(OnTable),
-                OnDeck = serializeCards(OnDeck),
-                Resources = serializeResources(Resources),
+                OnTable = SerializeCards(OnTable),
+                OnDeck = SerializeCards(OnDeck),
+                Resources = SerializeResources(Resources),
 
                 ChallengerId = ChallengerData.User.Id,
-                ChallengerHand = serializeCards(ChallengerData.Hand),
+                ChallengerHand = SerializeCards(ChallengerData.Hand),
                 ChallengerCamels = ChallengerData.Camels,
                 ChallengerPoints = ChallengerData.Points,
 
                 EnemyId = EnemyData.User.Id,
-                EnemyHand = serializeCards(EnemyData.Hand),
+                EnemyHand = SerializeCards(EnemyData.Hand),
                 EnemyCamels = EnemyData.Camels,
                 EnemyPoints = EnemyData.Points,
             };
         }
 
-        public GameData(Game game, User challenger, User enemy)
+        public GameData(Game game)
         {
-            Func<string, IEnumerable<Card>> deserializeCards =
-                str => str.Select(c => (Card)int.Parse(c.ToString()));
-
-            Func<string, Dictionary<Card, int>> deserializeResources =
-                str =>
-                {
-                    var serializedCards = new Dictionary<Card, int>();
-                    for (int i = 0; i < str.Length; i += 2)
-                        serializedCards.Add((Card)int.Parse(str[i].ToString()), int.Parse(str[i + 1].ToString()));
-                    return serializedCards;
-                };
-
             EnemyTurn = game.EnemyTurn;
 
-            OnDeck = new Stack<Card>(deserializeCards(game.OnDeck));
-            OnTable = deserializeCards(game.OnTable).ToList();
-            Resources = deserializeResources(game.Resources);
+            OnDeck = new Stack<Card>(DeserializeCards(game.OnDeck));
+            OnTable = DeserializeCards(game.OnTable).ToList();
+            Resources = DeserializeResources(game.Resources);
 
+            using (var db = new JaipurEntities())
+            {
+                var challenger = db.User.FirstOrDefault(u => u.Id == game.ChallengerId);
+                var enemy = db.User.FirstOrDefault(u => u.Id == game.EnemyId);
 
-            ChallengerData = new PlayerData(challenger) { Points = game.ChallengerPoints };
+                ChallengerData = new PlayerData(challenger) { Points = game.ChallengerPoints };
+                EnemyData = new PlayerData(enemy) { Points = game.EnemyPoints };
+            }
 
-            foreach (var card in deserializeCards(game.ChallengerHand))
+            foreach (var card in DeserializeCards(game.ChallengerHand))
                 ChallengerData.GiveCard(card);
             foreach (var card in Enumerable.Repeat(Card.Camel, game.ChallengerCamels))
                 ChallengerData.GiveCard(card);
 
-
-            EnemyData = new PlayerData(enemy) { Points = game.EnemyPoints };
-
-            foreach (var card in deserializeCards(game.EnemyHand))
+            foreach (var card in DeserializeCards(game.EnemyHand))
                 EnemyData.GiveCard(card);
             foreach (var card in Enumerable.Repeat(Card.Camel, game.EnemyCamels))
                 EnemyData.GiveCard(card);
+        }
+
+        static string SerializeCards(IEnumerable<Card> cards)
+        {
+            return cards.Aggregate(new StringBuilder(), (sb, c) => sb.Append((int)c)).ToString();
+        }
+
+        static string SerializeResources(Dictionary<Card, int> resources)
+        {
+            return resources.Aggregate(new StringBuilder(), (sb, kv) => sb.Append((int)kv.Key).Append(kv.Value)).ToString();
+        }
+
+        static IEnumerable<Card> DeserializeCards(string str)
+        {
+            return str.Select(c => (Card)int.Parse(c.ToString()));
+        }
+
+        static Dictionary<Card, int> DeserializeResources(string str)
+        {
+            var serializedCards = new Dictionary<Card, int>();
+            for (int i = 0; i < str.Length; i += 2)
+                serializedCards.Add((Card)int.Parse(str[i].ToString()), int.Parse(str[i + 1].ToString()));
+            return serializedCards;
         }
         #endregion
 

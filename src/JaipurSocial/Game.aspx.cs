@@ -9,19 +9,11 @@ using JaipurSocial.Data;
 
 public partial class Game : LocalizablePage
 {
-    #region Session Properties
-    private GameData GameData
-    {
-        get
-        {
-            return Session["CurrentGame"] as GameData;
-        }
-        set
-        {
-            Session["CurrentGame"] = value;
-        }
-    }
+    private GameData GameData { get; set; }
+    private PlayerData EnemyData { get; set; }
+    private PlayerData UserData { get; set; }
 
+    #region Session Properties
     private User CurrentUser
     {
         get
@@ -33,50 +25,45 @@ public partial class Game : LocalizablePage
             Session["User"] = value;
         }
     }
-
-    private User Enemy
-    {
-        get
-        {
-            return Session["Enemy"] as User;
-        }
-        set
-        {
-            Session["Enemy"] = value;
-        }
-    }
     #endregion Session Properties
-
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        #region New Game
-        if( GameData == null )
+        #region Load Game
+        using (var db = new JaipurEntities())
         {
-            if( Enemy != null )
+            var gameId = int.Parse(Request.QueryString["GameId"].ToString());
+            var game = db.Game.FirstOrDefault(g => g.Id == gameId);
+
+            if (game == null)
             {
-                GameData = GameData.CreateNewGame(CurrentUser, Enemy);
+                //throw new Exception("Game not found");
+                Response.Redirect("Default.aspx");
+                return;
+            }
+
+            if (game.ChallengerId != CurrentUser.Id && game.EnemyId != CurrentUser.Id)
+            {
+                //throw new Exception("No permission");
+                Response.Redirect("Default.aspx");
+            }
+
+            GameData = new GameData(game);
+
+            if (game.ChallengerId == CurrentUser.Id)
+            {
+                UserData = GameData.ChallengerData;
+                EnemyData = GameData.EnemyData;
             }
             else
             {
-                Response.Redirect("Default.aspx");
+                UserData = GameData.EnemyData;
+                EnemyData = GameData.ChallengerData;
             }
         }
-        #endregion New Game
+        #endregion Load Game
 
-        PlayerData player;
-        PlayerData other;
-
-        if (GameData.ChallengerData.User.Id == CurrentUser.Id) //That's me!
-        {
-            player = GameData.ChallengerData;
-            other = GameData.EnemyData;
-        }
-        else
-        {
-            other = GameData.ChallengerData;
-            player = GameData.EnemyData;
-        }
+        var x = Request.QueryString["a"];
 
         LblGold.Text = GameData.Resources[Card.Gold].ToString();
         LblSilk.Text = GameData.Resources[Card.Silk].ToString();
@@ -85,8 +72,8 @@ public partial class Game : LocalizablePage
         LblRuby.Text = GameData.Resources[Card.Ruby].ToString();
         LblLeather.Text = GameData.Resources[Card.Leather].ToString();
 
-        UcPlayer.LoadData(player, true);
-        UcEnemy.LoadData(other, false);
+        UcPlayer.LoadData(UserData, true);
+        UcEnemy.LoadData(EnemyData, false);
 
         DlCards.DataSource = CardContainer.GetContainer(GameData.OnTable, true);
         DlCards.DataBind();
