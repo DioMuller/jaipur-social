@@ -120,6 +120,12 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="BuyCamels" xml:space="preserve">
+    <value>Buy all the Camels</value>
+  </data>
+  <data name="BuyResource" xml:space="preserve">
+    <value>Buy One Resource</value>
+  </data>
   <data name="Challenge" xml:space="preserve">
     <value>Challenge</value>
   </data>
@@ -167,6 +173,12 @@
   </data>
   <data name="RequiredValidatePassword" xml:space="preserve">
     <value>Password and Password Validation must be the same</value>
+  </data>
+  <data name="SellResources" xml:space="preserve">
+    <value>Sell your Resources</value>
+  </data>
+  <data name="TradeResources" xml:space="preserve">
+    <value>Trade Resources</value>
   </data>
   <data name="ViewGame" xml:space="preserve">
     <value>View Game</value>

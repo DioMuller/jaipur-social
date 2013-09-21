@@ -79,6 +79,11 @@ public partial class Game : LocalizablePage
         UcPlayer.LoadData(UserData, true);
         UcEnemy.LoadData(EnemyData, false);
 
+        BtnBuy.Enabled = !GameData.EnemyTurn;
+        BtnTrade.Enabled = !GameData.EnemyTurn;
+        BtnBuyAllCamels.Enabled = !GameData.EnemyTurn;
+        BtnSell.Enabled = !GameData.EnemyTurn;
+
         DlCards.DataSource = CardContainer.GetContainer(GameData.OnTable, true);
         DlCards.DataBind();
     }
@@ -95,7 +100,17 @@ public partial class Game : LocalizablePage
 
     protected void BtnBuyAllCamels_OnClick(object sender, EventArgs e)
     {
-        
+        try
+        {
+            GameData.TakeCamels(UserData.User);
+            GameData.Save();
+
+            Response.Redirect(Request.Url.ToString());
+        }
+        catch(Exception ex)
+        {
+            //TODO: Show error message.
+        }
     }
 
     protected void BtnSell_OnClick(object sender, EventArgs e)

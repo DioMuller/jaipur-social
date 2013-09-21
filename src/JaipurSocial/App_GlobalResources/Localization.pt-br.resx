@@ -120,6 +120,12 @@
   <data name="Back" xml:space="preserve">
     <value>Voltar</value>
   </data>
+  <data name="BuyCamels" xml:space="preserve">
+    <value>Comprar Todos os Camelos</value>
+  </data>
+  <data name="BuyResource" xml:space="preserve">
+    <value>Comprar um Recurso</value>
+  </data>
   <data name="Challenge" xml:space="preserve">
     <value>Desafiar</value>
   </data>
@@ -167,6 +173,12 @@
   </data>
   <data name="RequiredValidatePassword" xml:space="preserve">
     <value>Senha e Validação de Senha devem ser iguais</value>
+  </data>
+  <data name="SellResources" xml:space="preserve">
+    <value>Vender seus Recursos</value>
+  </data>
+  <data name="TradeResources" xml:space="preserve">
+    <value>Trocar Recursos</value>
   </data>
   <data name="ViewGame" xml:space="preserve">
     <value>Ver jogo</value>

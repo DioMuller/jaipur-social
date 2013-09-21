@@ -52,10 +52,10 @@
     <tr>
         <td colspan="2">
             <div class="center">
-                <asp:Button ID="BtnBuy" Text="<%$ Resources:Localization, Login %>" OnClick="BtnBuy_OnClick" runat="server" />
-                <asp:Button ID="BtnTrade" Text="<%$ Resources:Localization, Register %>" OnClick="BtnTrade_OnClick"  runat="server" />
-                <asp:Button ID="BtnBuyAllCamels" Text="<%$ Resources:Localization, Login %>" OnClick="BtnBuyAllCamels_OnClick" runat="server" />
-                <asp:Button ID="BtnSell" Text="<%$ Resources:Localization, Register %>" OnClick="BtnSell_OnClick"  runat="server" />
+                <asp:Button ID="BtnBuy" Text="<%$ Resources:Localization, BuyResource %>" OnClick="BtnBuy_OnClick" runat="server" />
+                <asp:Button ID="BtnTrade" Text="<%$ Resources:Localization, TradeResources %>" OnClick="BtnTrade_OnClick"  runat="server" />
+                <asp:Button ID="BtnBuyAllCamels" Text="<%$ Resources:Localization, BuyCamels %>" OnClick="BtnBuyAllCamels_OnClick" runat="server" />
+                <asp:Button ID="BtnSell" Text="<%$ Resources:Localization, SellResources %>" OnClick="BtnSell_OnClick"  runat="server" />
             </div>
         </td>
     </tr>

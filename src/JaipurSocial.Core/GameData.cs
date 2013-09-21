@@ -10,6 +10,7 @@ namespace JaipurSocial.Core
     public class GameData
     {
         #region Properties
+        public int Id { get; private set; }
         public bool EnemyTurn { get; private set; }
 
         public PlayerData ChallengerData { get; private set; }
@@ -197,6 +198,34 @@ namespace JaipurSocial.Core
         }
         #endregion
 
+        #region DB Operations
+        public void Save()
+        {
+            using (var db = new JaipurEntities())
+            {
+                Game game = db.Game.First( (g) => g.Id == this.Id);
+                
+                game.EnemyTurn = EnemyTurn;
+
+                game.OnTable = SerializeCards(OnTable);
+                game.OnDeck = SerializeCards(OnDeck);
+                game.Resources = SerializeResources(Resources);
+
+                game.ChallengerId = ChallengerData.User.Id;
+                game.ChallengerHand = SerializeCards(ChallengerData.Hand);
+                game.ChallengerCamels = ChallengerData.Camels;
+                game.ChallengerPoints = ChallengerData.Points;
+
+                game.EnemyId = EnemyData.User.Id;
+                game.EnemyHand = SerializeCards(EnemyData.Hand);
+                game.EnemyCamels = EnemyData.Camels;
+                game.EnemyPoints = EnemyData.Points;
+
+                db.SaveChanges();
+            }
+        }
+        #endregion DB Operations
+
         #region DataBase
         public Game ToGame()
         {
@@ -222,6 +251,7 @@ namespace JaipurSocial.Core
 
         public GameData(Game game)
         {
+            Id = game.Id;
             EnemyTurn = game.EnemyTurn;
 
             OnDeck = new Stack<Card>(DeserializeCards(game.OnDeck));
