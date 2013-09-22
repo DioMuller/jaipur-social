@@ -32,7 +32,9 @@ public partial class Game : LocalizablePage
         if( Request.QueryString["GameId"] == null )
         {
             Response.Redirect("default.aspx");
+            return;
         }
+
         #region Load Game
         using (var db = new JaipurEntities())
         {
@@ -133,6 +135,17 @@ public partial class Game : LocalizablePage
 
     protected void BtnSell_OnClick(object sender, EventArgs e)
     {
-        
+        try
+        {
+            var cards = UcPlayer.SelectedCards.GroupBy(c => c).Single();
+            GameData.SellCards(UserData.User, cards.ToList());
+            GameData.Save();
+
+            Response.Redirect(Request.Url.ToString());
+        }
+        catch (Exception ex)
+        {
+            //TODO: Show error message.
+        }
     }
 }
