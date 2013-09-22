@@ -13,6 +13,18 @@ public partial class Game : LocalizablePage
     private PlayerData EnemyData { get; set; }
     private PlayerData UserData { get; set; }
 
+    #region UI Properties
+    public IEnumerable<Card> SelectedCards
+    {
+        get
+        {
+            return from ListItem ck in DlChecks.Items
+                   where ck.Selected
+                   select (Card)int.Parse(ck.Value);
+        }
+    }
+    #endregion
+
     #region Session Properties
     private User CurrentUser
     {
@@ -98,10 +110,10 @@ public partial class Game : LocalizablePage
 
     protected void BtnBuy_OnClick(object sender, EventArgs e)
     {
-        Card card = (Card) int.Parse(DlChecks.SelectedItem.Value);
-
         try
         {
+            var card = SelectedCards.Single();
+
             GameData.TakeCard(UserData.User, card);
             GameData.Save();
 
@@ -115,7 +127,20 @@ public partial class Game : LocalizablePage
 
     protected void BtnTrade_OnClick(object sender, EventArgs e)
     {
-        
+        try
+        {
+            var userCards = UcPlayer.SelectedCards.ToList();
+            var tableCards = SelectedCards.ToList();
+
+            GameData.TradeCards(UserData.User, userCards, tableCards);
+            GameData.Save();
+
+            Response.Redirect(Request.Url.ToString());
+        }
+        catch (Exception ex)
+        {
+            //TODO: Show error message.
+        }
     }
 
     protected void BtnBuyAllCamels_OnClick(object sender, EventArgs e)
