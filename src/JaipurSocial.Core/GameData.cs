@@ -81,6 +81,13 @@ namespace JaipurSocial.Core
             return data;
         }
 
+        public PlayerData GetEnemyData(User currentUser)
+        {
+            if (currentUser.Id == ChallengerData.User.Id)
+                return EnemyData;
+            return ChallengerData;
+        }
+
         public bool IsCurrentTurn(User player)
         {
             if (EnemyTurn)

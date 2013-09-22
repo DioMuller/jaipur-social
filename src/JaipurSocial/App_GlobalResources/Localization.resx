@@ -144,6 +144,9 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="GameStatus" xml:space="preserve">
+    <value>Game Status</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Ready</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
@@ -182,5 +188,14 @@
   </data>
   <data name="ViewGame" xml:space="preserve">
     <value>View Game</value>
+  </data>
+  <data name="WaitingEnemy" xml:space="preserve">
+    <value>Waiting enemy</value>
+  </data>
+  <data name="YouLost" xml:space="preserve">
+    <value>You Lost</value>
+  </data>
+  <data name="YouWon" xml:space="preserve">
+    <value>You Won</value>
   </data>
 </root>

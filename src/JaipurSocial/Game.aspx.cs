@@ -81,8 +81,6 @@ public partial class Game : LocalizablePage
         }
         #endregion Load Game
 
-        var x = Request.QueryString["a"];
-
         LblGold.Text = GameData.Resources[Card.Gold].ToString();
         LblSilk.Text = GameData.Resources[Card.Silk].ToString();
         LblSilver.Text = GameData.Resources[Card.Silver].ToString();
@@ -99,6 +97,7 @@ public partial class Game : LocalizablePage
         BtnTrade.Enabled = GameData.IsCurrentTurn(CurrentUser);
         BtnBuyAllCamels.Enabled = GameData.IsCurrentTurn(CurrentUser);
         BtnSell.Enabled = GameData.IsCurrentTurn(CurrentUser);
+
         if( !IsPostBack )
         {
             UcPlayer.LoadData(UserData, true);

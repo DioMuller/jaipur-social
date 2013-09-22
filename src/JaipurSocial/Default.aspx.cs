@@ -23,14 +23,17 @@ public partial class _Default : LocalizablePage
 
                 try
                 {
-                    var games = from game in db.Game.Where(g => g.EnemyId == logged.Id || g.ChallengerId == logged.Id)
-                                let enemyId = game.ChallengerId == logged.Id ? game.EnemyId : game.ChallengerId
-                                let enemy = db.User.FirstOrDefault(u => u.Id == enemyId)
+                    var dbGames = from game in db.Game.Where(g => g.EnemyId == logged.Id || g.ChallengerId == logged.Id).ToList()
+                                  select new GameData(game);
+
+                    var games = from game in dbGames
+                                let enemy = game.GetEnemyData(logged)
                                 select new RunninGameInfo
                                 {
                                     GameId = game.Id,
-                                    EnemyLogin = enemy.Login,
-                                    EnemyEmail = enemy.Email
+                                    EnemyLogin = enemy.User.Login,
+                                    EnemyEmail = enemy.User.Email,
+                                    GameStatus = GetGameStatus(game, logged)
                                 };
                     GridGames.DataSource = games.ToList();
                     GridGames.DataBind();
@@ -38,6 +41,20 @@ public partial class _Default : LocalizablePage
                 catch { }
             }
         }
+    }
+
+    private string GetGameStatus(GameData gameData, User currentUser)
+    {
+        if(gameData.IsGameFinished)
+        {
+            if (gameData.Winner.Id == currentUser.Id)
+                return Resources.Localization.YouWon;
+            return Resources.Localization.YouLost;
+        }
+
+        if (gameData.IsCurrentTurn(currentUser))
+            return Resources.Localization.Ready;
+        return Resources.Localization.WaitingEnemy;
     }
 
     protected void GridGames_RowCommand(object sender, GridViewCommandEventArgs e)

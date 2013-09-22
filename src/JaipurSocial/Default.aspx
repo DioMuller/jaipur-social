@@ -11,7 +11,7 @@
             <!-- Current Games -->
             <td>
                 <asp:GridView ID="GridGames" CssClass="gridview" runat="server" AutoGenerateColumns="false" OnRowCommand="GridGames_RowCommand" DataKeyNames="GameId">
-                        <Columns>
+                    <Columns>
                         <asp:TemplateField>
                             <ItemTemplate>
                             <ajaxToolkit:Gravatar ID="Gravatar1" runat="server"
@@ -23,7 +23,12 @@
                         </asp:TemplateField>
                         <asp:BoundField DataField="EnemyLogin" HeaderText="<%$ Resources:Localization, Merchant %>" />
                         <asp:ButtonField ButtonType="Link" Text="<%$ Resources:Localization, ViewGame %>" CommandName="ViewGame" />
-                        </Columns>
+                        <asp:TemplateField HeaderText="<%$ Resources:Localization, GameStatus %>">
+                            <ItemTemplate>
+                                <asp:Label ID="GameStatus" Text='<%#Bind("GameStatus") %>' runat="server" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
                 </asp:GridView>
             </td>
             <td>
