@@ -11,7 +11,7 @@ namespace JaipurSocial.Core
     {
         #region Properties
         public int Id { get; private set; }
-        public bool EnemyTurn { get; private set; }
+        bool EnemyTurn { get; set; }
 
         public PlayerData ChallengerData { get; private set; }
         public PlayerData EnemyData { get; private set; }

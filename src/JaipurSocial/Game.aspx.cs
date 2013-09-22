@@ -81,10 +81,10 @@ public partial class Game : LocalizablePage
         UcPlayer.LoadData(UserData, true);
         UcEnemy.LoadData(EnemyData, false);
 
-        BtnBuy.Enabled = !GameData.EnemyTurn;
-        BtnTrade.Enabled = !GameData.EnemyTurn;
-        BtnBuyAllCamels.Enabled = !GameData.EnemyTurn;
-        BtnSell.Enabled = !GameData.EnemyTurn;
+        BtnBuy.Enabled = GameData.IsCurrentTurn(CurrentUser);
+        BtnTrade.Enabled = GameData.IsCurrentTurn(CurrentUser);
+        BtnBuyAllCamels.Enabled = GameData.IsCurrentTurn(CurrentUser);
+        BtnSell.Enabled = GameData.IsCurrentTurn(CurrentUser);
 
         var container = CardContainer.GetContainer(GameData.OnTable ,true);
 
