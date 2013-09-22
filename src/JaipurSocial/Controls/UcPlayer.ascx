@@ -8,11 +8,7 @@
     </tr>
     <tr>
         <td>
-            <asp:DataList ID="DlCards" RepeatDirection="Horizontal" runat="server" Width="700" BackColor="DarkBlue">
-                <ItemTemplate>
-                    <asp:Image ID="ImgCard" Height="121" Width="97" ImageUrl='<%# Bind("RelativeImage") %>' runat="server"/>
-                </ItemTemplate>
-            </asp:DataList>
+            <asp:CheckBoxList ID="DlChecks" RepeatDirection="Horizontal" runat="server" Width="700" />
         </td>
         <td>
             <asp:Image ID="ImgCamel" Height="60" Width="48" ImageUrl="../Images/card-camel.png" runat="server"/>

@@ -84,13 +84,31 @@ public partial class Game : LocalizablePage
         BtnBuyAllCamels.Enabled = !GameData.EnemyTurn;
         BtnSell.Enabled = !GameData.EnemyTurn;
 
-        DlCards.DataSource = CardContainer.GetContainer(GameData.OnTable, true);
-        DlCards.DataBind();
+        var container = CardContainer.GetContainer(GameData.OnTable ,true);
+
+        foreach (CardContainer c in container)
+        {
+            ListItem item = new ListItem("<img src='" + c.Image + "' height='121' width='97' />", ((int)c.Type).ToString());
+            item.Enabled = (c.Type != Card.Camel);
+            DlChecks.Items.Add(item);
+        }
     }
 
     protected void BtnBuy_OnClick(object sender, EventArgs e)
     {
-        
+        Card card = (Card) int.Parse(DlChecks.SelectedItem.Value);
+
+        try
+        {
+            GameData.TakeCard(UserData.User, card);
+            GameData.Save();
+
+            Response.Redirect(Request.Url.ToString());
+        }
+        catch (Exception ex)
+        {
+            //TODO: Show error message.
+        }
     }
 
     protected void BtnTrade_OnClick(object sender, EventArgs e)

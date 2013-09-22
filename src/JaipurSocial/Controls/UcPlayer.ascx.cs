@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using JaipurSocial.Core;
+using JaipurSocial.Data;
 
 public partial class Controls_UcPlayer : System.Web.UI.UserControl
 {
@@ -15,9 +16,14 @@ public partial class Controls_UcPlayer : System.Web.UI.UserControl
 
     public void LoadData(PlayerData data, bool visible)
     {
-        DlCards.DataSource = CardContainer.GetContainer(data.Hand, visible);
-        DlCards.DataBind();
+        var container = CardContainer.GetContainer(data.Hand, visible);
 
+        foreach( CardContainer c in container )
+        {
+            ListItem item = new ListItem("<img src='" + c.Image + "' height='121' width='97' />", ((int)c.Type).ToString());
+            item.Enabled = (c.Type != Card.Camel) && c.Visible;
+            DlChecks.Items.Add(item);
+        }
         LabelName.Text = data.User.Login;
         LabelCamels.Text = data.Camels.ToString();
     }
