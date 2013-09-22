@@ -76,21 +76,25 @@ public partial class Game : LocalizablePage
         LblRuby.Text = GameData.Resources[Card.Ruby].ToString();
         LblLeather.Text = GameData.Resources[Card.Leather].ToString();
 
-        UcPlayer.LoadData(UserData, true);
-        UcEnemy.LoadData(EnemyData, false);
+        BtnBuy.Enabled = GameData.IsCurrentTurn(UserData.User);
+        BtnTrade.Enabled = GameData.IsCurrentTurn(UserData.User);
+        BtnBuyAllCamels.Enabled = GameData.IsCurrentTurn(UserData.User);
+        BtnSell.Enabled = GameData.IsCurrentTurn(UserData.User);
 
-        BtnBuy.Enabled = !GameData.EnemyTurn;
-        BtnTrade.Enabled = !GameData.EnemyTurn;
-        BtnBuyAllCamels.Enabled = !GameData.EnemyTurn;
-        BtnSell.Enabled = !GameData.EnemyTurn;
-
-        var container = CardContainer.GetContainer(GameData.OnTable ,true);
-
-        foreach (CardContainer c in container)
+        if( !IsPostBack )
         {
-            ListItem item = new ListItem("<img src='" + c.Image + "' height='121' width='97' />", ((int)c.Type).ToString());
-            item.Enabled = (c.Type != Card.Camel);
-            DlChecks.Items.Add(item);
+            UcPlayer.LoadData(UserData, true);
+            UcEnemy.LoadData(EnemyData, false);
+
+            var container = CardContainer.GetContainer(GameData.OnTable ,true);
+            DlChecks.Items.Clear();
+
+            foreach (CardContainer c in container)
+            {
+                ListItem item = new ListItem("<img src='" + c.Image + "' height='121' width='97' />", ((int)c.Type).ToString());
+                item.Enabled = (c.Type != Card.Camel);
+                DlChecks.Items.Add(item);
+            }
         }
     }
 
@@ -133,6 +137,18 @@ public partial class Game : LocalizablePage
 
     protected void BtnSell_OnClick(object sender, EventArgs e)
     {
-        
+        List<Card> cards = UcPlayer.SelectedCards;
+
+        try
+        {
+            GameData.SellCards(UserData.User, cards);
+            GameData.Save();
+
+            Response.Redirect(Request.Url.ToString());
+        }
+        catch (Exception ex)
+        {
+            //TODO: Show error message.
+        }
     }
 }

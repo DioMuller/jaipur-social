@@ -9,6 +9,24 @@ using JaipurSocial.Data;
 
 public partial class Controls_UcPlayer : System.Web.UI.UserControl
 {
+    public List<Card> SelectedCards
+    {
+        get
+        {
+            List<Card> cards = new List<Card>();
+            var items = DlChecks.Items.Cast<ListItem>()
+                   .Where(item => item.Selected);
+
+            foreach (ListItem item in items)
+            {
+                Card card = (Card)int.Parse(item.Value);
+                cards.Add(card);
+            }
+
+            return cards;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
 
@@ -17,6 +35,7 @@ public partial class Controls_UcPlayer : System.Web.UI.UserControl
     public void LoadData(PlayerData data, bool visible)
     {
         var container = CardContainer.GetContainer(data.Hand, visible);
+        DlChecks.Items.Clear();
 
         foreach( CardContainer c in container )
         {
@@ -26,5 +45,6 @@ public partial class Controls_UcPlayer : System.Web.UI.UserControl
         }
         LabelName.Text = data.User.Login;
         LabelCamels.Text = data.Camels.ToString();
+        LabelCoins.Text = data.Points.ToString();
     }
 }
