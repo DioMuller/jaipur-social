@@ -121,6 +121,9 @@ namespace JaipurSocial.Core
         {
             var data = GetPlayerData(player, true);
 
+            if (hand.Count < table.Count)
+                hand.AddRange(Enumerable.Repeat(Card.Camel, Math.Min(table.Count - hand.Count, data.Camels)));
+
             if (hand.Count() != table.Count())
                 throw new InvalidOperationException("Cards must be traded equally");
 
