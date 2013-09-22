@@ -33,7 +33,7 @@ public partial class _Default : LocalizablePage
                                     GameId = game.Id,
                                     EnemyLogin = enemy.User.Login,
                                     EnemyEmail = enemy.User.Email,
-                                    GameStatus = GetGameStatus(game, logged)
+                                    GameStatus = game.GetStatus(logged)
                                 };
                     GridGames.DataSource = games.ToList();
                     GridGames.DataBind();
@@ -41,20 +41,6 @@ public partial class _Default : LocalizablePage
                 catch { }
             }
         }
-    }
-
-    private string GetGameStatus(GameData gameData, User currentUser)
-    {
-        if(gameData.IsGameFinished)
-        {
-            if (gameData.Winner.Id == currentUser.Id)
-                return Resources.Localization.YouWon;
-            return Resources.Localization.YouLost;
-        }
-
-        if (gameData.IsCurrentTurn(currentUser))
-            return Resources.Localization.Ready;
-        return Resources.Localization.WaitingEnemy;
     }
 
     protected void GridGames_RowCommand(object sender, GridViewCommandEventArgs e)

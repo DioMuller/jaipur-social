@@ -2,8 +2,9 @@
 
 <%@ Register Src="~/Controls/UcPlayer.ascx" TagPrefix="uc1" TagName="UcPlayer" %>
 
-
 <asp:Content ID="Content1" ContentPlaceHolderID="Body" Runat="Server">
+    <asp:Label ID="GameStatus" Runat="Server" Font-Size="X-Large"/>
+
     <table>
     <tr>
         <td colspan="2">

@@ -81,36 +81,41 @@ public partial class Game : LocalizablePage
         }
         #endregion Load Game
 
-        LblGold.Text = GameData.Resources[Card.Gold].ToString();
-        LblSilk.Text = GameData.Resources[Card.Silk].ToString();
-        LblSilver.Text = GameData.Resources[Card.Silver].ToString();
-        LblSpices.Text = GameData.Resources[Card.Spices].ToString();
-        LblRuby.Text = GameData.Resources[Card.Ruby].ToString();
-        LblLeather.Text = GameData.Resources[Card.Leather].ToString();
+        GameStatus.Text = GameData.GetStatus(CurrentUser);
 
-        BtnBuy.Enabled = GameData.IsCurrentTurn(UserData.User);
-        BtnTrade.Enabled = GameData.IsCurrentTurn(UserData.User);
-        BtnBuyAllCamels.Enabled = GameData.IsCurrentTurn(UserData.User);
-        BtnSell.Enabled = GameData.IsCurrentTurn(UserData.User);
-
-        BtnBuy.Enabled = GameData.IsCurrentTurn(CurrentUser);
-        BtnTrade.Enabled = GameData.IsCurrentTurn(CurrentUser);
-        BtnBuyAllCamels.Enabled = GameData.IsCurrentTurn(CurrentUser);
-        BtnSell.Enabled = GameData.IsCurrentTurn(CurrentUser);
-
-        if( !IsPostBack )
+        if (!GameData.IsGameFinished)
         {
-            UcPlayer.LoadData(UserData, true);
-            UcEnemy.LoadData(EnemyData, false);
+            LblGold.Text = GameData.Resources[Card.Gold].ToString();
+            LblSilk.Text = GameData.Resources[Card.Silk].ToString();
+            LblSilver.Text = GameData.Resources[Card.Silver].ToString();
+            LblSpices.Text = GameData.Resources[Card.Spices].ToString();
+            LblRuby.Text = GameData.Resources[Card.Ruby].ToString();
+            LblLeather.Text = GameData.Resources[Card.Leather].ToString();
 
-            var container = CardContainer.GetContainer(GameData.OnTable ,true);
-            DlChecks.Items.Clear();
+            BtnBuy.Enabled = GameData.IsCurrentTurn(UserData.User);
+            BtnTrade.Enabled = GameData.IsCurrentTurn(UserData.User);
+            BtnBuyAllCamels.Enabled = GameData.IsCurrentTurn(UserData.User);
+            BtnSell.Enabled = GameData.IsCurrentTurn(UserData.User);
 
-            foreach (CardContainer c in container)
+            BtnBuy.Enabled = GameData.IsCurrentTurn(CurrentUser);
+            BtnTrade.Enabled = GameData.IsCurrentTurn(CurrentUser);
+            BtnBuyAllCamels.Enabled = GameData.IsCurrentTurn(CurrentUser);
+            BtnSell.Enabled = GameData.IsCurrentTurn(CurrentUser);
+
+            if (!IsPostBack)
             {
-                ListItem item = new ListItem("<img src='" + c.Image + "' height='121' width='97' />", ((int)c.Type).ToString());
-                item.Enabled = (c.Type != Card.Camel);
-                DlChecks.Items.Add(item);
+                UcPlayer.LoadData(UserData, true);
+                UcEnemy.LoadData(EnemyData, false);
+
+                var container = CardContainer.GetContainer(GameData.OnTable, true);
+                DlChecks.Items.Clear();
+
+                foreach (CardContainer c in container)
+                {
+                    ListItem item = new ListItem("<img src='" + c.Image + "' height='121' width='97' />", ((int)c.Type).ToString());
+                    item.Enabled = (c.Type != Card.Camel);
+                    DlChecks.Items.Add(item);
+                }
             }
         }
     }
