@@ -9,21 +9,13 @@ using JaipurSocial.Data;
 
 public partial class Controls_UcPlayer : System.Web.UI.UserControl
 {
-    public List<Card> SelectedCards
+    public IEnumerable<Card> SelectedCards
     {
         get
         {
-            List<Card> cards = new List<Card>();
-            var items = DlChecks.Items.Cast<ListItem>()
-                   .Where(item => item.Selected);
-
-            foreach (ListItem item in items)
-            {
-                Card card = (Card)int.Parse(item.Value);
-                cards.Add(card);
-            }
-
-            return cards;
+            return from ListItem ck in DlChecks.Items
+                   where ck.Selected
+                   select (Card)int.Parse(ck.Value);
         }
     }
 
@@ -37,7 +29,7 @@ public partial class Controls_UcPlayer : System.Web.UI.UserControl
         var container = CardContainer.GetContainer(data.Hand, visible);
         DlChecks.Items.Clear();
 
-        foreach( CardContainer c in container )
+        foreach (CardContainer c in container)
         {
             ListItem item = new ListItem("<img src='" + c.Image + "' height='121' width='97' />", ((int)c.Type).ToString());
             item.Enabled = (c.Type != Card.Camel) && c.Visible;

@@ -11,7 +11,7 @@ namespace JaipurSocial.Core
     {
         #region Properties
         public int Id { get; private set; }
-        public bool EnemyTurn { get; private set; }
+        bool EnemyTurn { get; set; }
 
         public PlayerData ChallengerData { get; private set; }
         public PlayerData EnemyData { get; private set; }
@@ -114,6 +114,7 @@ namespace JaipurSocial.Core
             OnTable.Remove(selectedCard);
             data.GiveCard(selectedCard);
             DrawCards();
+            EnemyTurn = !EnemyTurn;
         }
 
         public void TradeCards(User player, List<Card> hand, List<Card> table)
@@ -147,6 +148,8 @@ namespace JaipurSocial.Core
                 OnTable.Remove(card);
                 data.GiveCard(card);
             }
+
+            EnemyTurn = !EnemyTurn;
         }
 
         public void TakeCamels(User player)
@@ -165,6 +168,8 @@ namespace JaipurSocial.Core
                 throw new InvalidOperationException("No camels on the table");
 
             DrawCards();
+
+            EnemyTurn = !EnemyTurn;
         }
 
         public void SellCards(User player, Card card, int ammount)
@@ -190,9 +195,14 @@ namespace JaipurSocial.Core
             {
                 var points = GetNextValue(card);
                 data.TakeCard(card);
-                if (Resources.Remove(card))
+                if (Resources.ContainsKey(card) && Resources[card] > 0)
+                {
+                    Resources[card]--;
                     data.Points += points;
+                }
             }
+
+            EnemyTurn = !EnemyTurn;
 
             // TODO: Ammount count Bonus.
         }

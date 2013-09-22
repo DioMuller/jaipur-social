@@ -13,6 +13,18 @@ public partial class Game : LocalizablePage
     private PlayerData EnemyData { get; set; }
     private PlayerData UserData { get; set; }
 
+    #region UI Properties
+    public IEnumerable<Card> SelectedCards
+    {
+        get
+        {
+            return from ListItem ck in DlChecks.Items
+                   where ck.Selected
+                   select (Card)int.Parse(ck.Value);
+        }
+    }
+    #endregion
+
     #region Session Properties
     private User CurrentUser
     {
@@ -32,7 +44,9 @@ public partial class Game : LocalizablePage
         if( Request.QueryString["GameId"] == null )
         {
             Response.Redirect("default.aspx");
+            return;
         }
+
         #region Load Game
         using (var db = new JaipurEntities())
         {
@@ -81,6 +95,10 @@ public partial class Game : LocalizablePage
         BtnBuyAllCamels.Enabled = GameData.IsCurrentTurn(UserData.User);
         BtnSell.Enabled = GameData.IsCurrentTurn(UserData.User);
 
+        BtnBuy.Enabled = GameData.IsCurrentTurn(CurrentUser);
+        BtnTrade.Enabled = GameData.IsCurrentTurn(CurrentUser);
+        BtnBuyAllCamels.Enabled = GameData.IsCurrentTurn(CurrentUser);
+        BtnSell.Enabled = GameData.IsCurrentTurn(CurrentUser);
         if( !IsPostBack )
         {
             UcPlayer.LoadData(UserData, true);
@@ -100,10 +118,10 @@ public partial class Game : LocalizablePage
 
     protected void BtnBuy_OnClick(object sender, EventArgs e)
     {
-        Card card = (Card) int.Parse(DlChecks.SelectedItem.Value);
-
         try
         {
+            var card = SelectedCards.Single();
+
             GameData.TakeCard(UserData.User, card);
             GameData.Save();
 
@@ -117,7 +135,20 @@ public partial class Game : LocalizablePage
 
     protected void BtnTrade_OnClick(object sender, EventArgs e)
     {
-        
+        try
+        {
+            var userCards = UcPlayer.SelectedCards.ToList();
+            var tableCards = SelectedCards.ToList();
+
+            GameData.TradeCards(UserData.User, userCards, tableCards);
+            GameData.Save();
+
+            Response.Redirect(Request.Url.ToString());
+        }
+        catch (Exception ex)
+        {
+            //TODO: Show error message.
+        }
     }
 
     protected void BtnBuyAllCamels_OnClick(object sender, EventArgs e)
@@ -137,11 +168,10 @@ public partial class Game : LocalizablePage
 
     protected void BtnSell_OnClick(object sender, EventArgs e)
     {
-        List<Card> cards = UcPlayer.SelectedCards;
-
         try
         {
-            GameData.SellCards(UserData.User, cards);
+            var cards = UcPlayer.SelectedCards.GroupBy(c => c).Single();
+            GameData.SellCards(UserData.User, cards.ToList());
             GameData.Save();
 
             Response.Redirect(Request.Url.ToString());
