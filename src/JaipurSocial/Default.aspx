@@ -48,7 +48,7 @@
                                 DefaultImageBehavior="MysteryMan"/>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:BoundField DataField="Login" HeaderText="<%$ Resources:Localization, Merchant %>" />
+                        <asp:BoundField DataField="Name" HeaderText="<%$ Resources:Localization, Merchant %>" />
                         <asp:ButtonField ButtonType="Link" Text="<%$ Resources:Localization, Challenge %>" CommandName="Challenge" />
                         </Columns>
                 </asp:GridView>

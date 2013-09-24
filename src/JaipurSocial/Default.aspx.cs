@@ -31,7 +31,7 @@ public partial class _Default : LocalizablePage
                                 select new RunninGameInfo
                                 {
                                     GameId = game.Id,
-                                    EnemyLogin = enemy.User.Login,
+                                    EnemyLogin = enemy.User.Name,
                                     EnemyEmail = enemy.User.Email,
                                     GameStatus = game.GetStatus(logged)
                                 };

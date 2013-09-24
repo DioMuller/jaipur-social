@@ -55,4 +55,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
         Session["Culture"] = culture;
         Response.Redirect(Request.RawUrl);
     }
+    protected void ImageTitle_Click(object sender, ImageClickEventArgs e)
+    {
+        Response.Redirect("default.aspx");
+    }
 }

@@ -32,6 +32,8 @@ public partial class Register : LocalizablePage
                     {
                         Login = TxtLogin.Text,
                         Email = TxtEmail.Text,
+                        Name = TxtName.Text,
+                        Coins = 100,
                         Password = bytes
                     });
                     db.SaveChanges();

@@ -17,7 +17,7 @@
         </asp:ScriptManager>
         <!-- HEADER -->
         <div class="header">
-            <asp:Image ID="ImageTitle" ImageUrl="./Images/title.png" runat="server"/>
+            <asp:ImageButton ID="ImageTitle" ImageUrl="./Images/title.png" OnClick="ImageTitle_Click" runat="server"/>
             <!-- LANGUAGES -->
             <div style="position:fixed; top:10px; right:10px;">
                 <asp:ImageButton ID="ButtonEnglish" OnClick="ButtonEnglish_Click" ImageUrl="Images/flag-uk.png" runat="server"/>

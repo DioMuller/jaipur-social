@@ -18,5 +18,7 @@ namespace JaipurSocial.Data
         public string Email { get; set; }
         public byte[] Password { get; set; }
         public string Login { get; set; }
+        public int Coins { get; set; }
+        public string Name { get; set; }
     }
 }

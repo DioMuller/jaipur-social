@@ -27,5 +27,7 @@ namespace JaipurSocial.Data
         public string EnemyHand { get; set; }
         public int EnemyPoints { get; set; }
         public int EnemyCamels { get; set; }
+        public Nullable<int> Bet { get; set; }
+        public Nullable<bool> BetAccepted { get; set; }
     }
 }

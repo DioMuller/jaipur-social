@@ -7,6 +7,11 @@
             <td><asp:RequiredFieldValidator ID="RfvLogin" runat="server" ControlToValidate="TxtLogin" Text="<%$ Resources:Localization, RequiredLogin %>" /></td>
         </tr>
         <tr>
+            <td><asp:Label ID="LblName" runat="server" Text="<%$ Resources:Localization, Name %>" /></td>
+            <td><asp:TextBox ID="TxtName" runat="server" /></td>
+            <td><asp:RequiredFieldValidator ID="RfvName" runat="server" ControlToValidate="TxtName" Text="<%$ Resources:Localization, RequiredName %>" /></td>
+        </tr>
+        <tr>
             <td><asp:Label ID="LblEmail" runat="server" Text="<%$ Resources:Localization, Email %>" /></td>
             <td><asp:TextBox ID="TxtEmail" runat="server" /></td>
             <td><asp:RequiredFieldValidator ID="RfvEmail" runat="server" ControlToValidate="TxtEmail" Text="<%$ Resources:Localization, RequiredEmail %>" /></td>

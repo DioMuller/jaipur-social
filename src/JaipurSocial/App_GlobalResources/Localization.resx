@@ -156,6 +156,9 @@
   <data name="Merchant" xml:space="preserve">
     <value>Merchant</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Merchant Name</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="RequiredLogin" xml:space="preserve">
     <value>Login is Required</value>
+  </data>
+  <data name="RequiredName" xml:space="preserve">
+    <value>Merchant Name is required</value>
   </data>
   <data name="RequiredPassword" xml:space="preserve">
     <value>Password is Required</value>
