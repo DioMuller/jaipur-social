@@ -24,6 +24,11 @@ public static class Extensions
             return Resources.Localization.YouLost;
         }
 
+        if (gameData.IsDeleted(gameData.GetEnemyData(currentUser).User))
+            return Resources.Localization.YouWon;
+        if (gameData.IsDeleted(currentUser))
+            return Resources.Localization.YouLost;
+
         if (gameData.IsCurrentTurn(currentUser))
             return Resources.Localization.Ready;
         return Resources.Localization.WaitingEnemy;

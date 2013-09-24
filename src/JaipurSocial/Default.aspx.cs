@@ -28,6 +28,7 @@ public partial class _Default : LocalizablePage
 
                     var games = from game in dbGames
                                 let enemy = game.GetEnemyData(logged)
+                                where !game.IsDeleted(logged)
                                 select new RunninGameInfo
                                 {
                                     GameId = game.Id,
@@ -50,6 +51,25 @@ public partial class _Default : LocalizablePage
             GridGames.SelectedIndex = int.Parse(e.CommandArgument.ToString());
             GridGames.DataBind();
             Response.Redirect("Game.aspx?GameId=" + GridGames.SelectedDataKey.Value);
+        }
+
+        else if (e.CommandName == "DeleteGame")
+        {
+            GridGames.SelectedIndex = int.Parse(e.CommandArgument.ToString());
+            GridGames.DataBind();
+
+            using (var db = new JaipurEntities())
+            {
+                User logged = (Session["User"] as User);
+                var gameId = int.Parse(GridGames.SelectedDataKey.Value.ToString());
+                var game = db.Game.FirstOrDefault(g => g.Id == gameId);
+
+                var data = new GameData(game);
+                data.MarkAsDeleted(logged);
+                data.Save();
+
+                db.SaveChanges();
+            }
         }
     }
 

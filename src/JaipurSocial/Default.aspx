@@ -28,6 +28,7 @@
                                 <asp:Label ID="GameStatus" Text='<%#Bind("GameStatus") %>' runat="server" />
                             </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:ButtonField ButtonType="Link" Text="<%$ Resources:Localization, DeleteGame %>" CommandName="DeleteGame" />
                     </Columns>
                 </asp:GridView>
             </td>

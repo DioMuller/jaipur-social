@@ -28,6 +28,8 @@
           <Property Name="EnemyCamels" Type="int" Nullable="false" />
           <Property Name="Bet" Type="int" />
           <Property Name="BetAccepted" Type="bit" />
+          <Property Name="EnemyDeleted" Type="bit" />
+          <Property Name="ChallengerDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -65,19 +67,21 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Boolean" Name="EnemyTurn" Nullable="false" />
-          <Property Type="String" Name="OnTable" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Type="String" Name="OnDeck" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Type="String" Name="Resources" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="OnTable" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="OnDeck" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Resources" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ChallengerId" Nullable="false" />
-          <Property Type="String" Name="ChallengerHand" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="ChallengerHand" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ChallengerPoints" Nullable="false" />
           <Property Type="Int32" Name="ChallengerCamels" Nullable="false" />
           <Property Type="Int32" Name="EnemyId" Nullable="false" />
-          <Property Type="String" Name="EnemyHand" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="EnemyHand" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="EnemyPoints" Nullable="false" />
           <Property Type="Int32" Name="EnemyCamels" Nullable="false" />
           <Property Type="Int32" Name="Bet" />
           <Property Type="Boolean" Name="BetAccepted" />
+          <Property Type="Boolean" Name="EnemyDeleted" DefaultValue="false" Nullable="false" />
+          <Property Type="Boolean" Name="ChallengerDeleted" Nullable="false" DefaultValue="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -97,27 +101,29 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Game">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.Game)">
-        <MappingFragment StoreEntitySet="Game">
-          <ScalarProperty Name="BetAccepted" ColumnName="BetAccepted" />
+          <EntitySetMapping Name="Game">
+            <EntityTypeMapping TypeName="Model.Game">
+              <MappingFragment StoreEntitySet="Game">
+                <ScalarProperty Name="ChallengerDeleted" ColumnName="ChallengerDeleted" />
+                <ScalarProperty Name="EnemyDeleted" ColumnName="EnemyDeleted" />
+                <ScalarProperty Name="BetAccepted" ColumnName="BetAccepted" />
                 <ScalarProperty Name="Bet" ColumnName="Bet" />
+                <ScalarProperty Name="EnemyCamels" ColumnName="EnemyCamels" />
+                <ScalarProperty Name="EnemyPoints" ColumnName="EnemyPoints" />
+                <ScalarProperty Name="EnemyHand" ColumnName="EnemyHand" />
+                <ScalarProperty Name="EnemyId" ColumnName="EnemyId" />
+                <ScalarProperty Name="ChallengerCamels" ColumnName="ChallengerCamels" />
+                <ScalarProperty Name="ChallengerPoints" ColumnName="ChallengerPoints" />
+                <ScalarProperty Name="ChallengerHand" ColumnName="ChallengerHand" />
+                <ScalarProperty Name="ChallengerId" ColumnName="ChallengerId" />
+                <ScalarProperty Name="Resources" ColumnName="Resources" />
+                <ScalarProperty Name="OnDeck" ColumnName="OnDeck" />
+                <ScalarProperty Name="OnTable" ColumnName="OnTable" />
+                <ScalarProperty Name="EnemyTurn" ColumnName="EnemyTurn" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="EnemyTurn" ColumnName="EnemyTurn" />
-          <ScalarProperty Name="OnTable" ColumnName="OnTable" />
-          <ScalarProperty Name="OnDeck" ColumnName="OnDeck" />
-          <ScalarProperty Name="Resources" ColumnName="Resources" />
-          <ScalarProperty Name="ChallengerId" ColumnName="ChallengerId" />
-          <ScalarProperty Name="ChallengerHand" ColumnName="ChallengerHand" />
-          <ScalarProperty Name="ChallengerPoints" ColumnName="ChallengerPoints" />
-          <ScalarProperty Name="ChallengerCamels" ColumnName="ChallengerCamels" />
-          <ScalarProperty Name="EnemyId" ColumnName="EnemyId" />
-          <ScalarProperty Name="EnemyHand" ColumnName="EnemyHand" />
-          <ScalarProperty Name="EnemyPoints" ColumnName="EnemyPoints" />
-          <ScalarProperty Name="EnemyCamels" ColumnName="EnemyCamels" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

@@ -14,6 +14,12 @@ namespace JaipurSocial.Data
     
     public partial class Game
     {
+        public Game()
+        {
+            this.EnemyDeleted = false;
+            this.ChallengerDeleted = false;
+        }
+
         public int Id { get; set; }
         public bool EnemyTurn { get; set; }
         public string OnTable { get; set; }
@@ -29,5 +35,7 @@ namespace JaipurSocial.Data
         public int EnemyCamels { get; set; }
         public Nullable<int> Bet { get; set; }
         public Nullable<bool> BetAccepted { get; set; }
+        public bool EnemyDeleted { get; set; }
+        public bool ChallengerDeleted { get; set; }
     }
 }

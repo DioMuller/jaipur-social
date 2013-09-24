@@ -141,6 +141,9 @@
   <data name="CurrentGames" xml:space="preserve">
     <value>Jogos Atuais</value>
   </data>
+  <data name="DeleteGame" xml:space="preserve">
+    <value>Excluir jogo</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>

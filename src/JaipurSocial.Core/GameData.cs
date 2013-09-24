@@ -12,6 +12,8 @@ namespace JaipurSocial.Core
         #region Properties
         public int Id { get; private set; }
         bool EnemyTurn { get; set; }
+        bool ChallengerDeleted { get; set; }
+        bool EnemyDeleted { get; set; }
 
         public PlayerData ChallengerData { get; private set; }
         public PlayerData EnemyData { get; private set; }
@@ -29,9 +31,15 @@ namespace JaipurSocial.Core
         {
             get
             {
-                if (!IsGameFinished)
-                    return null;
-                return new[] { ChallengerData, EnemyData }.OrderByDescending(d => d.Points).FirstOrDefault().User;
+                if (IsGameFinished)
+                    return new[] { ChallengerData, EnemyData }.OrderByDescending(d => d.Points).FirstOrDefault().User;
+
+                if (EnemyDeleted)
+                    return ChallengerData.User;
+                if (ChallengerDeleted)
+                    return EnemyData.User;
+
+                return null;
             }
         }
         #endregion
@@ -90,6 +98,12 @@ namespace JaipurSocial.Core
 
         public bool IsCurrentTurn(User player)
         {
+            if (EnemyDeleted || ChallengerDeleted)
+                return false;
+
+            if (IsGameFinished)
+                return false;
+
             if (EnemyTurn)
                 return player.Login.ToLower() == EnemyData.User.Login.ToLower();
             return player.Login.ToLower() == ChallengerData.User.Login.ToLower();
@@ -241,8 +255,41 @@ namespace JaipurSocial.Core
                 game.EnemyCamels = EnemyData.Camels;
                 game.EnemyPoints = EnemyData.Points;
 
+                game.ChallengerDeleted = ChallengerDeleted;
+                game.EnemyDeleted = EnemyDeleted;
+
                 db.SaveChanges();
             }
+        }
+
+        public void MarkAsDeleted(User player)
+        {
+            using (var db = new JaipurEntities())
+            {
+                Game game = db.Game.FirstOrDefault((g) => g.Id == this.Id);
+                if (game == null)
+                    return;
+
+                if (player.Id == ChallengerData.User.Id)
+                    game.ChallengerDeleted = ChallengerDeleted = true;
+                else if (player.Id == EnemyData.User.Id)
+                    game.EnemyDeleted = EnemyDeleted = true;
+
+                if (EnemyDeleted && ChallengerDeleted)
+                    db.Game.Remove(game);
+
+                db.SaveChanges();
+            }
+        }
+
+        public bool IsDeleted(User player)
+        {
+            if (player.Id == ChallengerData.User.Id)
+                return ChallengerDeleted;
+            else if (player.Id == EnemyData.User.Id)
+                return EnemyDeleted;
+
+            return true;
         }
         #endregion DB Operations
 
@@ -266,6 +313,9 @@ namespace JaipurSocial.Core
                 EnemyHand = SerializeCards(EnemyData.Hand),
                 EnemyCamels = EnemyData.Camels,
                 EnemyPoints = EnemyData.Points,
+
+                ChallengerDeleted = ChallengerDeleted,
+                EnemyDeleted = EnemyDeleted,
             };
         }
 
@@ -296,6 +346,9 @@ namespace JaipurSocial.Core
                 EnemyData.GiveCard(card);
             foreach (var card in Enumerable.Repeat(Card.Camel, game.EnemyCamels))
                 EnemyData.GiveCard(card);
+
+            EnemyDeleted = game.EnemyDeleted;
+            ChallengerDeleted = game.ChallengerDeleted;
         }
 
         static string SerializeCards(IEnumerable<Card> cards)

@@ -53,7 +53,9 @@ CREATE TABLE [dbo].[Game] (
     [EnemyId] int  NOT NULL,
     [EnemyHand] nvarchar(max)  NOT NULL,
     [EnemyPoints] int  NOT NULL,
-    [EnemyCamels] int  NOT NULL
+    [EnemyCamels] int  NOT NULL,
+    [ChallengerDeleted] bit  NOT NULL,
+    [EnemyDeleted] bit  NOT NULL
 );
 GO
 
