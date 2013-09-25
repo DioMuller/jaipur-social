@@ -23,6 +23,29 @@
                 <asp:ImageButton ID="ButtonEnglish" OnClick="ButtonEnglish_Click" ImageUrl="Images/flag-uk.png" runat="server"/>
                 <asp:ImageButton ID="ButtonPortuguese" OnClick="ButtonPortuguese_Click" ImageUrl="Images/flag-brazil.png" runat="server"/>
             </div>
+            <div style="position:fixed; top:35px; right:60px;">
+                <asp:Panel ID="PanelUser" runat="server">
+                    <table>
+                        <tr>
+                            <td rowspan="2">
+                                <ajaxToolkit:Gravatar ID="GravatarUser" runat="server"
+                                    Size="64"
+                                    Rating="R"
+                                    DefaultImageBehavior="MysteryMan"/>
+                            </td>
+                            <td colspan="2"><asp:Label ID="LabelUsername" ForeColor="White" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:Image ID="ImgCoins" Height="24" Width="24" ImageUrl="Images/coins.png" runat="server"/>
+                            </td>
+                            <td>
+                                <asp:Label ID="LabelCoins" ForeColor="White" runat="server" />
+                            </td>
+                        </tr>
+                    </table>
+                </asp:Panel>
+            </div>
         </div>  
         <!-- BODY -->
         <div class="center">

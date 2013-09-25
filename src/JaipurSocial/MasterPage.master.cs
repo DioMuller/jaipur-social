@@ -7,6 +7,7 @@ using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using JaipurSocial.Data;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
@@ -22,13 +23,22 @@ public partial class MasterPage : System.Web.UI.MasterPage
         #endregion jQuery
 
         #region Logged User
-        if( Session["User"] == null )
+        User user =  Session["User"] as User;
+        if( user == null )
         {
+            PanelUser.Visible = false;
             string name = Path.GetFileName(Request.PhysicalPath).ToLower();
             if( name != "login.aspx" && name != "register.aspx" )
             {
                 Response.Redirect("login.aspx");
             }
+        }
+        else
+        {
+            PanelUser.Visible = true;
+            LabelUsername.Text = user.Name;
+            GravatarUser.Email = user.Email;
+            LabelCoins.Text = user.Coins.ToString();
         }
         #endregion Logged User
 

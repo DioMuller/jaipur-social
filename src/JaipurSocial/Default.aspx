@@ -22,12 +22,12 @@
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="EnemyLogin" HeaderText="<%$ Resources:Localization, Merchant %>" />
-                        <asp:ButtonField ButtonType="Link" Text="<%$ Resources:Localization, ViewGame %>" CommandName="ViewGame" />
                         <asp:TemplateField HeaderText="<%$ Resources:Localization, GameStatus %>">
                             <ItemTemplate>
                                 <asp:Label ID="GameStatus" Text='<%#Bind("GameStatus") %>' runat="server" />
                             </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:ButtonField ButtonType="Link" Text="<%$ Resources:Localization, ViewGame %>" CommandName="ViewGame" />
                         <asp:ButtonField ButtonType="Link" Text="<%$ Resources:Localization, DeleteGame %>" CommandName="DeleteGame" />
                     </Columns>
                 </asp:GridView>

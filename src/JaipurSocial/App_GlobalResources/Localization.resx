@@ -142,7 +142,7 @@
     <value>Current Games</value>
   </data>
   <data name="DeleteGame" xml:space="preserve">
-    <value>Delete Game</value>
+    <value>Leave Game</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
