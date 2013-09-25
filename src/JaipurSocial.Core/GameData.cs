@@ -14,6 +14,8 @@ namespace JaipurSocial.Core
         bool EnemyTurn { get; set; }
         bool ChallengerDeleted { get; set; }
         bool EnemyDeleted { get; set; }
+        public int Bet { get; private set; }
+        public bool Accepted { get; set; }
 
         public PlayerData ChallengerData { get; private set; }
         public PlayerData EnemyData { get; private set; }
@@ -21,6 +23,7 @@ namespace JaipurSocial.Core
         public List<Card> OnTable { get; private set; }
         public Stack<Card> OnDeck { get; private set; }
         public Dictionary<Card, int> Resources { get; private set; }
+        
 
         public bool IsGameFinished
         {
@@ -72,9 +75,11 @@ namespace JaipurSocial.Core
         }
         #endregion
 
-        public static GameData CreateNewGame(User challenger, User enemy)
+        public static GameData CreateNewGame(User challenger, User enemy, int bet = 0)
         {
             var data = new GameData(challenger, enemy);
+            data.Bet = bet;
+            data.Accepted = false;
 
             data.ShuffleCards();
 
@@ -258,6 +263,9 @@ namespace JaipurSocial.Core
                 game.ChallengerDeleted = ChallengerDeleted;
                 game.EnemyDeleted = EnemyDeleted;
 
+                game.Bet = Bet;
+                game.BetAccepted = Accepted;
+
                 db.SaveChanges();
             }
         }
@@ -316,6 +324,9 @@ namespace JaipurSocial.Core
 
                 ChallengerDeleted = ChallengerDeleted,
                 EnemyDeleted = EnemyDeleted,
+
+                Bet = this.Bet,
+                BetAccepted = Accepted,
             };
         }
 
