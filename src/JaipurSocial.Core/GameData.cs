@@ -32,7 +32,14 @@ namespace JaipurSocial.Core
             get
             {
                 if (IsGameFinished)
-                    return new[] { ChallengerData, EnemyData }.OrderByDescending(d => d.Points).FirstOrDefault().User;
+                {
+                    var mostCamels = ChallengerData.Camels > EnemyData.Camels ? ChallengerData :
+                                 ChallengerData.Camels < EnemyData.Camels ? EnemyData : null;
+
+                    return new[] { ChallengerData, EnemyData }
+                        .OrderByDescending(d => d.Points + (d == mostCamels ? 5 : 0))
+                        .FirstOrDefault().User;
+                }
 
                 if (EnemyDeleted)
                     return ChallengerData.User;
