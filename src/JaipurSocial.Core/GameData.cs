@@ -233,9 +233,17 @@ namespace JaipurSocial.Core
                 }
             }
 
-            EnemyTurn = !EnemyTurn;
+            var rng = new Random(Environment.TickCount);
+            data.Points += new Dictionary<int, Func<int>>
+            {
+                { 3, () => rng.Next(1, 5) },
+                { 4, () => rng.Next(4, 8) },
+                { 5, () => rng.Next(7, 11) },
+                { 6, () => rng.Next(10, 16) },
+                { 7, () => 20 },
+            }.GetValueOrDefault(cards.Count, () => 0)();
 
-            // TODO: Ammount count Bonus.
+            EnemyTurn = !EnemyTurn;
         }
         #endregion
 
