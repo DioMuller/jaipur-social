@@ -171,6 +171,12 @@
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>
+  <data name="RegisterError" xml:space="preserve">
+    <value>There was an error while registering a new user.</value>
+  </data>
+  <data name="RegisterSuccess" xml:space="preserve">
+    <value>Registration Sucessful!</value>
+  </data>
   <data name="RequiredEmail" xml:space="preserve">
     <value>Email is Required</value>
   </data>
@@ -194,6 +200,9 @@
   </data>
   <data name="TradeResources" xml:space="preserve">
     <value>Trade Resources</value>
+  </data>
+  <data name="UserAlreadyExists" xml:space="preserve">
+    <value>Could not complete the operation: Username already exists.</value>
   </data>
   <data name="ViewGame" xml:space="preserve">
     <value>View Game</value>

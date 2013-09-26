@@ -4,8 +4,8 @@
     <table style="width:100%">
         <tr>
             <td style="width:30%"><asp:Label ID="Label2" runat="server" Text="<%$ Resources:Localization, CurrentGames %>" /></td>
-            <td style="width:40%"></td>
-            <td style="width:30%"><asp:Label ID="Label1" runat="server" Text="<%$ Resources:Localization, ChallengePeople %>" /></td>
+            <td style="width:50%"></td>
+            <td style="width:20%"><asp:Label ID="Label1" runat="server" Text="<%$ Resources:Localization, ChallengePeople %>" /></td>
         </tr>
         <tr>
             <!-- Current Games -->
@@ -35,7 +35,7 @@
             <td>
             <!-- Something? -->
             </td>
-            <td>
+            <td style="vertical-align: top; align-content: center">
                 <!-- Challenge People -->
                 
                 <asp:GridView ID="GridUsers" CssClass="gridview" runat="server" AutoGenerateColumns="false" OnRowCommand="GridUsers_RowCommand" DataKeyNames="Id">

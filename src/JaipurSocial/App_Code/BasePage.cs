@@ -23,4 +23,14 @@ public class LocalizablePage : Page
 
         base.InitializeCulture();
     }
+
+    public void ShowMessage(string message)
+    {
+        System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('" + message + "')</SCRIPT>");
+    }
+
+    public void ShowMessage(string message, string redirectAfter)
+    {
+        System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('" + message + "')</SCRIPT>;document.location='" + ResolveClientUrl(redirectAfter) +"';</script>");
+    }
 }

@@ -24,26 +24,35 @@ public partial class Register : LocalizablePage
         {
             byte[] bytes = CryptoHelper.GetHash(TxtPassword.Text);
 
-            using (var db = new JaipurEntities())
+            try
             {
-                if (!db.User.Any(u => u.Login.ToLower() == TxtLogin.Text.ToLower()))
+                using (var db = new JaipurEntities())
                 {
-                    db.User.Add(new User
+                    if (!db.User.Any(u => u.Login.ToLower() == TxtLogin.Text.ToLower()))
                     {
-                        Login = TxtLogin.Text,
-                        Email = TxtEmail.Text,
-                        Name = TxtName.Text,
-                        Coins = 100,
-                        Password = bytes
-                    });
-                    db.SaveChanges();
+                        db.User.Add(new User
+                        {
+                            Login = TxtLogin.Text,
+                            Email = TxtEmail.Text,
+                            Name = TxtName.Text,
+                            Coins = 100,
+                            Password = bytes
+                        });
+                        db.SaveChanges();
 
-                    Response.Redirect("Login.aspx");
+                        ShowMessage(Resources.Localization.RegisterSuccess, "Login.aspx");
+                    }
+                    else
+                    {
+                        ShowMessage(Resources.Localization.UserAlreadyExists);
+                    }
+
+                    
                 }
-                else
-                {
-                    //TODO: Show error message: User already exists
-                }
+            }
+            catch(Exception ex)
+            {
+                ShowMessage(Resources.Localization.RegisterError + '\n' + ex.Message);
             }
         }
     }
