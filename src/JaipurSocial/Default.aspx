@@ -33,9 +33,10 @@
                 </asp:GridView>
             </td>
             <td>
-            <!-- Something? -->
+            <!-- How to Play -->
+                <iframe id="frameHowToPlay" src="<%$ Resources:Localization, HelpPage %>" runat="server"/>
             </td>
-            <td style="vertical-align: top; align-content: center">
+            <td style="vertical-align: top;">
                 <!-- Challenge People -->
                 
                 <asp:GridView ID="GridUsers" CssClass="gridview" runat="server" AutoGenerateColumns="false" OnRowCommand="GridUsers_RowCommand" DataKeyNames="Id">

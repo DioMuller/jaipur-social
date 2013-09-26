@@ -153,6 +153,9 @@
   <data name="GameStatus" xml:space="preserve">
     <value>Estado do jogo</value>
   </data>
+  <data name="HelpPage" xml:space="preserve">
+    <value>Pages/ComoJogar.html</value>
+  </data>
   <data name="InvalidPassword" xml:space="preserve">
     <value>Erro ao efetuar login: Senha inválida.</value>
   </data>

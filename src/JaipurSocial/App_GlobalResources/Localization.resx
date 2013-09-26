@@ -153,6 +153,9 @@
   <data name="GameStatus" xml:space="preserve">
     <value>Game Status</value>
   </data>
+  <data name="HelpPage" xml:space="preserve">
+    <value>Pages/HowToPlay.html</value>
+  </data>
   <data name="InvalidPassword" xml:space="preserve">
     <value>Error logging in: Wrong password.</value>
   </data>
