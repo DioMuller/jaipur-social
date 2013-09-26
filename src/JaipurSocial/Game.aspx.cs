@@ -102,6 +102,15 @@ public partial class Game : LocalizablePage
             BtnBuyAllCamels.Enabled = GameData.IsCurrentTurn(CurrentUser);
             BtnSell.Enabled = GameData.IsCurrentTurn(CurrentUser);
 
+            if (!GameData.IsCurrentTurn(CurrentUser))
+            {
+                ClientScriptManager cs = Page.ClientScript;
+                cs.RegisterStartupScript(GetType(),
+                    "auto_refresh",
+                    "<script type=\"text/javascript\">window.setInterval(function() { window.location.reload(); }, 10000);</script>",
+                    false);
+            }
+
             if (!IsPostBack)
             {
                 UcPlayer.LoadData(UserData, true);
