@@ -23,19 +23,34 @@ public partial class _Default : LocalizablePage
 
     protected void BtnLogin_Click(object sender, EventArgs e)
     {
-        using (var db = new JaipurEntities())
+        try
         {
-            var user = db.User.FirstOrDefault(u => u.Login.ToLower() == TxtLogin.Text.ToLower());
+            using (var db = new JaipurEntities())
+            {
+                var user = db.User.FirstOrDefault(u => u.Login.ToLower() == TxtLogin.Text.ToLower());
 
-            if (user != null && user.CheckPassword(TxtPassword.Text))
-            {
-                Session["User"] = user;
-                Response.Redirect("Default.aspx");
-            }
-            else
-            {
-                //TODO: Show error message: Wrong User or password.
+                if (user != null && user.CheckPassword(TxtPassword.Text))
+                {
+                    Session["User"] = user;
+                    Response.Redirect("Default.aspx");
+                }
+                else
+                {
+                    if (user == null)
+                    {
+                        ShowMessage(Resources.Localization.InvalidUser);
+                    }
+                    else
+                    {
+                        ShowMessage(Resources.Localization.InvalidPassword);
+                    }
+                }
             }
         }
+        catch (Exception ex)
+        {
+            ShowMessage(Resources.Localization.Exception + ex.Message);
+        }
+        
     }
 }

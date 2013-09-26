@@ -147,8 +147,17 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="Exception" xml:space="preserve">
+    <value>There was an error while executing the operation:\n</value>
+  </data>
   <data name="GameStatus" xml:space="preserve">
     <value>Game Status</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Error logging in: Wrong password.</value>
+  </data>
+  <data name="InvalidUser" xml:space="preserve">
+    <value>Error logging in: User does not exist.</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
