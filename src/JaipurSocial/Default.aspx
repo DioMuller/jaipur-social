@@ -3,10 +3,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="Body" Runat="Server">
     <table style="width:100%">
         <tr>
-            <td style="width:50%"></td>
-            <td><asp:Label ID="Label2" runat="server" Text="<%$ Resources:Localization, CurrentGames %>" /></td>
+            <td style="width:50%"><asp:Label ID="LabelHowToPlay" runat="server" Text="<%$ Resources:Localization, HowToPlay %>" /></td>
+            <td><asp:Label ID="LabelCurrentGames" runat="server" Text="<%$ Resources:Localization, CurrentGames %>" /></td>
 
-            <td><asp:Label ID="Label1" runat="server" Text="<%$ Resources:Localization, ChallengePeople %>" /></td>
+            <td><asp:Label ID="LabelChallengePeople" runat="server" Text="<%$ Resources:Localization, ChallengePeople %>" /></td>
         </tr>
         <tr>
             <td>
@@ -59,5 +59,15 @@
         </tr>
     </table>
 
+    <!-- Bet Modal -->
+    <!--
+    <ajaxToolkit:ModalPopupExtender ID="ModalBet" PopupControlID="PanelBet" TargetControlID="GridUsers" runat="server" />
+    <asp:Panel ID="PanelBet" runat="server" Visible="false">
+        <asp:Label ID="LabelBetAmount" Text="<%$ Resources:Localization, BetAmount %>" runat="server" />
+        <asp:TextBox ID="TxtBetAmount" runat="server" />
+        <ajaxToolkit:MaskedEditExtender MaskType="Number" Mask="9999" TargetControlID="TxtBetAmount" runat="server" />
+        <asp:Button ID="ButtonChallenge" Text="<%$ Resources:Localization, Challenge %>" runat="server" />
+    </asp:Panel>
+    -->
 </asp:Content>
 

@@ -29,7 +29,7 @@ public partial class _Default : LocalizablePage
                     var games = from game in dbGames
                                 let enemy = game.GetEnemyData(logged)
                                 where !game.IsDeleted(logged)
-                                select new RunninGameInfo
+                                select new RunningGameInfo
                                 {
                                     GameId = game.Id,
                                     EnemyLogin = enemy.User.Name,

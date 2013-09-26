@@ -35,7 +35,7 @@ public partial class Controls_UcPlayer : System.Web.UI.UserControl
             item.Enabled = (c.Type != Card.Camel) && c.Visible;
             DlChecks.Items.Add(item);
         }
-        LabelName.Text = data.User.Login;
+        LabelName.Text = data.User.Name;
         LabelCamels.Text = data.Camels.ToString();
         LabelCoins.Text = data.Points.ToString();
     }

@@ -120,6 +120,9 @@
   <data name="Back" xml:space="preserve">
     <value>Voltar</value>
   </data>
+  <data name="BetAmount" xml:space="preserve">
+    <value>Valor da Aposta</value>
+  </data>
   <data name="BuyCamels" xml:space="preserve">
     <value>Comprar Todos os Camelos</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="HelpPage" xml:space="preserve">
     <value>Pages/ComoJogar.html</value>
+  </data>
+  <data name="HowToPlay" xml:space="preserve">
+    <value>Como Jogar</value>
   </data>
   <data name="InvalidPassword" xml:space="preserve">
     <value>Erro ao efetuar login: Senha inválida.</value>

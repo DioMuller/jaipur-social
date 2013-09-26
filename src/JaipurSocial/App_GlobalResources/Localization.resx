@@ -120,6 +120,9 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="BetAmount" xml:space="preserve">
+    <value>Bet Amount</value>
+  </data>
   <data name="BuyCamels" xml:space="preserve">
     <value>Buy all the Camels</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="HelpPage" xml:space="preserve">
     <value>Pages/HowToPlay.html</value>
+  </data>
+  <data name="HowToPlay" xml:space="preserve">
+    <value>How to Play</value>
   </data>
   <data name="InvalidPassword" xml:space="preserve">
     <value>Error logging in: Wrong password.</value>
