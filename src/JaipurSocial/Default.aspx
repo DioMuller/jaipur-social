@@ -3,11 +3,16 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="Body" Runat="Server">
     <table style="width:100%">
         <tr>
-            <td style="width:30%"><asp:Label ID="Label2" runat="server" Text="<%$ Resources:Localization, CurrentGames %>" /></td>
             <td style="width:50%"></td>
-            <td style="width:20%"><asp:Label ID="Label1" runat="server" Text="<%$ Resources:Localization, ChallengePeople %>" /></td>
+            <td><asp:Label ID="Label2" runat="server" Text="<%$ Resources:Localization, CurrentGames %>" /></td>
+
+            <td><asp:Label ID="Label1" runat="server" Text="<%$ Resources:Localization, ChallengePeople %>" /></td>
         </tr>
         <tr>
+            <td>
+            <!-- How to Play -->
+                <iframe id="frameHowToPlay" src="<%$ Resources:Localization, HelpPage %>" style="width:100%; height: 100%;" runat="server"/>
+            </td>
             <!-- Current Games -->
             <td>
                 <asp:GridView ID="GridGames" CssClass="gridview" runat="server" AutoGenerateColumns="false" OnRowCommand="GridGames_RowCommand" DataKeyNames="GameId">
@@ -31,10 +36,6 @@
                         <asp:ButtonField ButtonType="Link" Text="<%$ Resources:Localization, DeleteGame %>" CommandName="DeleteGame" />
                     </Columns>
                 </asp:GridView>
-            </td>
-            <td>
-            <!-- How to Play -->
-                <iframe id="frameHowToPlay" src="<%$ Resources:Localization, HelpPage %>" runat="server"/>
             </td>
             <td style="vertical-align: top;">
                 <!-- Challenge People -->
