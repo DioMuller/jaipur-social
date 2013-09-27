@@ -227,6 +227,9 @@ namespace JaipurSocial.Core
             if (type == Card.Camel)
                 throw new Exception("Camels cannot be sold");
 
+            if ((type == Card.Ruby || type == Card.Gold || type == Card.Silver) && cards.Count < 2)
+                throw new Exception("At least two cards of this type must be sold");
+
             foreach (var card in cards)
             {
                 var points = GetNextValue(card);
