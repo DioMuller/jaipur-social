@@ -8,10 +8,10 @@
 
             <td><asp:Label ID="LabelChallengePeople" runat="server" Text="<%$ Resources:Localization, Leaderboards %>" /></td>
         </tr>
-        <tr>
-            <td rowspan="3">
+        <tr style="height: 100%;">
+            <td style="height: 100%;">
             <!-- How to Play -->
-                <iframe id="frameHowToPlay" src="<%$ Resources:Localization, HelpPage %>" style="width:100%; height: 100%;" runat="server"/>
+                <iframe id="frameHowToPlay" src="<%$ Resources:Localization, HelpPage %>" style="width:100%; height: 100%;" frameborder="0" runat="server"/>
             </td>
             <!-- Current Games -->
             <td rowspan="3">
