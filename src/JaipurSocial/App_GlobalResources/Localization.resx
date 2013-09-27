@@ -129,11 +129,17 @@
   <data name="BuyResource" xml:space="preserve">
     <value>Buy One Resource</value>
   </data>
+  <data name="CantChallengeYourself" xml:space="preserve">
+    <value>You can't challenge yourself!</value>
+  </data>
   <data name="Challenge" xml:space="preserve">
     <value>Challenge</value>
   </data>
   <data name="ChallengePeople" xml:space="preserve">
     <value>Challenge People</value>
+  </data>
+  <data name="Coins" xml:space="preserve">
+    <value>Coins</value>
   </data>
   <data name="ConfirmEmail" xml:space="preserve">
     <value>Confirm Email</value>
@@ -170,6 +176,9 @@
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
+  </data>
+  <data name="Leaderboards" xml:space="preserve">
+    <value>Leaderboards</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>

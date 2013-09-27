@@ -17,7 +17,8 @@ public partial class _Default : LocalizablePage
 
             if( logged != null )
             {
-                List<User> users = db.User.Where((u) => u.Id != logged.Id).ToList<User>();
+                Random rng = new Random(DateTime.Now.Millisecond);
+                List<User> users = db.User.OrderByDescending( (u) => u.Coins).ToList<User>();
                 GridUsers.DataSource = users;
                 GridUsers.DataBind();
 
@@ -77,17 +78,28 @@ public partial class _Default : LocalizablePage
     {
         if( e.CommandName == "Challenge" )
         {
+            User user = Session["User"] as User;
+
             GridUsers.SelectedIndex = int.Parse(e.CommandArgument.ToString());
             GridUsers.DataBind();
 
-            using (var db = new JaipurEntities())
-            {
-                var enemy = db.User.FirstOrDefault((u) => u.Id == (int)GridUsers.SelectedDataKey.Value);
+            int enemyId = (int)GridUsers.SelectedDataKey.Value;
 
-                var gameData = JaipurSocial.Core.GameData.CreateNewGame(Session["User"] as User, enemy);
-                var saved = db.Game.Add(gameData.ToGame());
-                db.SaveChanges();
-                Response.Redirect("Game.aspx?GameId=" + saved.Id);
+            if( enemyId != user.Id )
+            {
+                using (var db = new JaipurEntities())
+                {
+                    var enemy = db.User.FirstOrDefault((u) => u.Id == enemyId);
+
+                    var gameData = JaipurSocial.Core.GameData.CreateNewGame(user, enemy);
+                    var saved = db.Game.Add(gameData.ToGame());
+                    db.SaveChanges();
+                    Response.Redirect("Game.aspx?GameId=" + saved.Id);
+                }
+            }
+            else
+            {
+                ShowMessage(Resources.Localization.CantChallengeYourself);
             }
         }
     }

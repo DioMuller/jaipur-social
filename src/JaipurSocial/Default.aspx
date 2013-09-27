@@ -6,15 +6,15 @@
             <td style="width:50%"><asp:Label ID="LabelHowToPlay" runat="server" Text="<%$ Resources:Localization, HowToPlay %>" /></td>
             <td><asp:Label ID="LabelCurrentGames" runat="server" Text="<%$ Resources:Localization, CurrentGames %>" /></td>
 
-            <td><asp:Label ID="LabelChallengePeople" runat="server" Text="<%$ Resources:Localization, ChallengePeople %>" /></td>
+            <td><asp:Label ID="LabelChallengePeople" runat="server" Text="<%$ Resources:Localization, Leaderboards %>" /></td>
         </tr>
         <tr>
-            <td>
+            <td rowspan="3">
             <!-- How to Play -->
                 <iframe id="frameHowToPlay" src="<%$ Resources:Localization, HelpPage %>" style="width:100%; height: 100%;" runat="server"/>
             </td>
             <!-- Current Games -->
-            <td>
+            <td rowspan="3">
                 <asp:GridView ID="GridGames" CssClass="gridview" runat="server" AutoGenerateColumns="false" OnRowCommand="GridGames_RowCommand" DataKeyNames="GameId">
                     <Columns>
                         <asp:TemplateField>
@@ -38,8 +38,7 @@
                 </asp:GridView>
             </td>
             <td style="vertical-align: top;">
-                <!-- Challenge People -->
-                
+                <!-- Challenge People -->             
                 <asp:GridView ID="GridUsers" CssClass="gridview" runat="server" AutoGenerateColumns="false" OnRowCommand="GridUsers_RowCommand" DataKeyNames="Id">
                         <Columns> 
                         <asp:TemplateField>
@@ -52,6 +51,7 @@
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="Name" HeaderText="<%$ Resources:Localization, Merchant %>" />
+                        <asp:BoundField DataField="Coins" HeaderText="<%$ Resources:Localization, Coins %>" />
                         <asp:ButtonField ButtonType="Link" Text="<%$ Resources:Localization, Challenge %>" CommandName="Challenge" />
                         </Columns>
                 </asp:GridView>
