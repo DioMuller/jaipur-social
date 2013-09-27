@@ -292,6 +292,8 @@ namespace JaipurSocial.Core
         {
             using (var db = new JaipurEntities())
             {
+                PayWinner(GetEnemyData(player).User);
+
                 Game game = db.Game.FirstOrDefault((g) => g.Id == this.Id);
                 if (game == null)
                     return;
@@ -312,10 +314,31 @@ namespace JaipurSocial.Core
         {
             if (player.Id == ChallengerData.User.Id)
                 return ChallengerDeleted;
-            else if (player.Id == EnemyData.User.Id)
+            if (player.Id == EnemyData.User.Id)
                 return EnemyDeleted;
 
             return true;
+        }
+
+        public void PayWinner(User winner = null)
+        {
+            winner = winner ?? Winner;
+            if(Winner == null)
+                return;
+
+            using (var db = new JaipurEntities())
+            {
+                var winnerId = winner.Id;
+                var win = db.User.First(u => u.Id == winnerId);
+                win.Coins += Bet + ChallengerData.Points + EnemyData.Points;
+                winner.Coins = win.Coins;
+                var gameId = Id;
+                var gam = db.Game.First(g => g.Id == gameId);
+                gam.Bet = Bet = 0;
+                ChallengerData.Points = gam.ChallengerPoints = 0;
+                EnemyData.Points = gam.EnemyPoints = 0;
+                db.SaveChanges();
+            }
         }
         #endregion DB Operations
 

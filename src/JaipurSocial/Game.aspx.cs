@@ -159,8 +159,6 @@ public partial class Game : LocalizablePage
             GameData.Save();
 
             Response.Redirect(Request.Url.ToString());
-
-            CheckGameEnd();
         }
         catch (Exception ex)
         {
@@ -176,8 +174,6 @@ public partial class Game : LocalizablePage
             GameData.Save();
 
             Response.Redirect(Request.Url.ToString());
-
-            CheckGameEnd();
         }
         catch(Exception ex)
         {
@@ -203,17 +199,9 @@ public partial class Game : LocalizablePage
         }
     }
 
-    protected void CheckGameEnd()
+    private void CheckGameEnd()
     {
         if (GameData.IsGameFinished)
-        {
-            using (var db = new JaipurEntities())
-            {
-                var winnerId = GameData.Winner.Id;
-                var win = db.User.First(u => u.Id == winnerId);
-                win.Coins += GameData.Bet + GameData.ChallengerData.Points + GameData.EnemyData.Points;
-                db.SaveChanges();
-            }
-        }
+            GameData.PayWinner();
     }
 }
