@@ -66,10 +66,10 @@ public partial class _Default : LocalizablePage
 
                 var data = new GameData(game);
                 data.MarkAsDeleted(logged);
-                data.Save();
 
                 db.SaveChanges();
             }
+            Response.Redirect("Default.aspx");
         }
     }
 
