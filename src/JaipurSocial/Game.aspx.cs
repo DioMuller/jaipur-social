@@ -41,6 +41,12 @@ public partial class Game : LocalizablePage
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (CurrentUser == null)
+        {
+            Response.Redirect("login.aspx");
+            return;
+        }
+
         if( Request.QueryString["GameId"] == null )
         {
             Response.Redirect("default.aspx");
@@ -135,9 +141,9 @@ public partial class Game : LocalizablePage
             GameData.TakeCard(UserData.User, card);
             GameData.Save();
 
-            Response.Redirect(Request.Url.ToString());
-
             CheckGameEnd();
+
+            Response.Redirect(Request.Url.ToString());
         }
         catch (Exception ex)
         {
@@ -186,9 +192,9 @@ public partial class Game : LocalizablePage
             GameData.SellCards(UserData.User, cards.ToList());
             GameData.Save();
 
-            Response.Redirect(Request.Url.ToString());
-
             CheckGameEnd();
+
+            Response.Redirect(Request.Url.ToString());
         }
         catch (Exception ex)
         {
