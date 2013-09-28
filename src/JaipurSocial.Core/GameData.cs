@@ -173,6 +173,9 @@ namespace JaipurSocial.Core
             if (tableCardsToTrade.Any(c => OnTable.Count(t => t == c.Key) < c.Value))
                 throw new InvalidOperationException("Invalid table cards");
 
+            if (data.Hand.Count + hand.Count(c => c == Card.Camel) > 7)
+                throw new InvalidOperationException("You cannot have more than 7 cards at hand");
+
             foreach (var card in hand)
             {
                 data.TakeCard(card);
