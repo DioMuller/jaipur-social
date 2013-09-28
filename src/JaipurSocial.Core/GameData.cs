@@ -292,7 +292,9 @@ namespace JaipurSocial.Core
         {
             using (var db = new JaipurEntities())
             {
-                PayWinner(GetEnemyData(player).User);
+                var toPay = IsGameFinished ? Winner : GetEnemyData(player).User;
+
+                PayWinner(toPay);
 
                 Game game = db.Game.FirstOrDefault((g) => g.Id == this.Id);
                 if (game == null)
