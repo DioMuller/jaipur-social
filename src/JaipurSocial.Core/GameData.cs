@@ -325,7 +325,7 @@ namespace JaipurSocial.Core
         public void PayWinner(User winner = null)
         {
             winner = winner ?? Winner;
-            if(Winner == null)
+            if (winner == null)
                 return;
 
             using (var db = new JaipurEntities())
