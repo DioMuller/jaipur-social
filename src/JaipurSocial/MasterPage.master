@@ -13,6 +13,7 @@
         <asp:ScriptManager ID="ScriptManager" runat="server">
           <Scripts>
             <asp:ScriptReference Name="jquery"/>
+              <asp:ScriptReference Path="./Scripts/facebook.js"/>
           </Scripts>
         </asp:ScriptManager>
         <!-- HEADER -->
@@ -20,6 +21,7 @@
             <asp:ImageButton ID="ImageTitle" ImageUrl="./Images/title.png" OnClick="ImageTitle_Click" runat="server"/>
             <!-- LANGUAGES -->
             <div style="position:absolute; top:10px; right:10px;">
+                <div class="fb-login-button" data-show-faces="true" data-width="400" data-max-rows="1"></div>
                 <asp:ImageButton ID="ButtonEnglish" OnClick="ButtonEnglish_Click" ImageUrl="Images/flag-uk.png" runat="server"/>
                 <asp:ImageButton ID="ButtonPortuguese" OnClick="ButtonPortuguese_Click" ImageUrl="Images/flag-brazil.png" runat="server"/>
             </div>
